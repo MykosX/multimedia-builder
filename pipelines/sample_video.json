@@ -1,0 +1,22 @@
+{
+  "subproject_title": "Work on video activities",
+  "activities": [
+    {
+      "name": "Prepare video files",
+      "type": "moviepy",
+      "defaults": {
+        "codec": "libx264",
+        "fps": 60,
+        "duration": 5.0
+      },
+      "actions": [
+        {
+          "command": "generate_video",
+          "image": "output/image/opening-scene.jpg",
+          "audio": "output/audio/opening-scene.wav",
+          "output": "output/video/opening-scene.mp4"
+        }
+      ]
+    }
+  ]
+}

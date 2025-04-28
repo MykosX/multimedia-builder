@@ -1,0 +1,28 @@
+# Ignore Python virtual environment
+venv/
+
+# Ignore compiled Python files
+__pycache__/
+**/__pycache__/
+
+# Ignore input and output folders
+assets/
+output/
+
+# Ignore temporary files
+*.log
+*.tmp
+*.bak
+*.swp
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore model checkpoints (if any in the future)
+*.ckpt
+*.pth
+*.pt
+
+# Ignore environment files
+.env

@@ -1,0 +1,17 @@
+{
+    "project_title": "Describe Techniques",
+    "pipelines": [
+        {
+            "path": "pipelines/sample_audio.json",
+            "enabled": true
+        },
+        {
+            "path": "pipelines/sample_image.json",
+            "enabled": true
+        },
+        {
+            "path": "pipelines/sample_video.json",
+            "enabled": true
+        }
+    ]
+}
