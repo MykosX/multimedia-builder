@@ -12,9 +12,128 @@
       "actions": [
         {
           "command": "generate_video",
-          "image": "output/image/opening-scene.jpg",
+          "image": "assets/image/opening-scene.jpg",
           "audio": "output/audio/opening-scene.wav",
           "output": "output/video/opening-scene.mp4"
+        },
+        {
+          "command": "generate_video",
+          "image": "assets/image/summary.jpg",
+          "audio": "output/audio/summary.wav",
+          "output": "output/video/summary.mp4"
+        },
+        {
+          "command": "generate_video",
+          "image": "assets/image/stories-concept.jpg",
+          "audio": "output/audio/stories-concept.wav",
+          "output": "output/video/stories-concept.mp4"
+        },
+        {
+          "command": "generate_video",
+          "image": "assets/image/stories-example.jpg",
+          "audio": "output/audio/stories-example.wav",
+          "output": "output/video/stories-example.mp4"
+        },
+        {
+          "command": "generate_video",
+          "image": "assets/image/one-liners-concept.jpg",
+          "audio": "output/audio/one-liners-concept.wav",
+          "output": "output/video/one-liners-concept.mp4"
+        },
+        {
+          "command": "generate_video",
+          "image": "assets/image/one-liners-example.jpg",
+          "audio": "output/audio/one-liners-example.wav",
+          "output": "output/video/one-liners-example.mp4"
+        },
+        {
+          "command": "generate_video",
+          "image": "assets/image/banter-concept.jpg",
+          "audio": "output/audio/banter-concept.wav",
+          "output": "output/video/banter-concept.mp4"
+        },
+        {
+          "command": "generate_video",
+          "image": "assets/image/banter-example.jpg",
+          "audio": "output/audio/banter-example.wav",
+          "output": "output/video/banter-example.mp4"
+        },
+        {
+          "command": "generate_video",
+          "image": "assets/image/triples-concept.jpg",
+          "audio": "output/audio/triples-concept.wav",
+          "output": "output/video/triples-concept.mp4"
+        },
+        {
+          "command": "generate_video",
+          "image": "assets/image/triples-example.jpg",
+          "audio": "output/audio/triples-example.wav",
+          "output": "output/video/triples-example.mp4"
+        },
+        {
+          "command": "generate_video",
+          "image": "assets/image/quotes-concept.jpg",
+          "audio": "output/audio/quotes-concept.wav",
+          "output": "output/video/quotes-concept.mp4"
+        },
+        {
+          "command": "generate_video",
+          "image": "assets/image/quotes-example.jpg",
+          "audio": "output/audio/quotes-example.wav",
+          "output": "output/video/quotes-example.mp4"
+        },
+        {
+          "command": "generate_video",
+          "image": "assets/image/word-play-concept.jpg",
+          "audio": "output/audio/word-play-concept.wav",
+          "output": "output/video/word-play-concept.mp4"
+        },
+        {
+          "command": "generate_video",
+          "image": "assets/image/word-play-example.jpg",
+          "audio": "output/audio/word-play-example.wav",
+          "output": "output/video/word-play-example.mp4"
+        },
+        {
+          "command": "generate_video",
+          "image": "assets/image/exaggerations-concept.jpg",
+          "audio": "output/audio/exaggerations-concept.wav",
+          "output": "output/video/exaggerations-concept.mp4"
+        },
+        {
+          "command": "generate_video",
+          "image": "assets/image/exaggerations-example.jpg",
+          "audio": "output/audio/exaggerations-example.wav",
+          "output": "output/video/exaggerations-example.mp4"
+        },
+        {
+          "command": "generate_video",
+          "image": "assets/image/download-scene.jpg",
+          "audio": "output/audio/download-scene.wav",
+          "output": "output/video/download-scene.mp4"
+        },
+        {
+          "command": "combine_videos",
+          "videos": [
+          "output/video/opening-scene.mp4",
+          "output/video/summary.mp4",
+          "output/video/stories-concept.mp4",
+          "output/video/stories-example.mp4",
+          "output/video/one-liners-concept.mp4",
+          "output/video/one-liners-example.mp4",
+          "output/video/banter-concept.mp4",
+          "output/video/banter-example.mp4",
+          "output/video/triples-concept.mp4",
+          "output/video/triples-example.mp4",
+          "output/video/quotes-concept.mp4",
+          "output/video/quotes-example.mp4",
+          "output/video/word-play-concept.mp4",
+          "output/video/word-play-example.mp4",
+          "output/video/exaggerations-concept.mp4",
+          "output/video/exaggerations-example.mp4",
+          "output/video/download-scene.mp4"
+          ],
+          "output": "output/combined/final.mp4"
         }
       ]
     }

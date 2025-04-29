@@ -7,6 +7,7 @@
       "defaults": {
         "language": "en",
         "model_path": "tts_models/en/ljspeech/vits",
+        "model_path_ro": "tts_models/ro/cv/vits",
         "speed": 1.2,
         "energy": 1.1,
         "speaker": null
@@ -14,8 +15,88 @@
       "actions": [
         {
           "command": "generate_speech",
-          "text": "Welcome to to multimedia builder.",
+          "text": "Welcome to Joke School. Where being funny is something you can actually learn.",
           "output": "output/audio/opening-scene.wav"
+        },
+        {
+          "command": "generate_speech",
+          "text": "You'll discover 7 joke styles. From stories, to one-liners, to wild exaggerations. Let's jump in!",
+          "output": "output/audio/summary.wav"
+        },
+        {
+          "command": "generate_speech",
+          "text_source": "assets/text/stories-concept.txt",
+          "output": "output/audio/stories-concept.wav"
+        },
+        {
+          "command": "generate_speech",
+          "text_source": "assets/text/stories-example.txt",
+          "output": "output/audio/stories-example.wav"
+        },
+        {
+          "command": "generate_speech",
+          "text_source": "assets/text/one-liners-concept.txt",
+          "output": "output/audio/one-liners-concept.wav"
+        },
+        {
+          "command": "generate_speech",
+          "text_source": "assets/text/one-liners-example.txt",
+          "output": "output/audio/one-liners-example.wav"
+        },
+        {
+          "command": "generate_speech",
+          "text_source": "assets/text/banter-concept.txt",
+          "output": "output/audio/banter-concept.wav"
+        },
+        {
+          "command": "generate_speech",
+          "text_source": "assets/text/banter-example.txt",
+          "output": "output/audio/banter-example.wav"
+        },
+        {
+          "command": "generate_speech",
+          "text_source": "assets/text/triples-concept.txt",
+          "output": "output/audio/triples-concept.wav"
+        },
+        {
+          "command": "generate_speech",
+          "text_source": "assets/text/triples-example.txt",
+          "output": "output/audio/triples-example.wav"
+        },
+        {
+          "command": "generate_speech",
+          "text_source": "assets/text/quotes-concept.txt",
+          "output": "output/audio/quotes-concept.wav"
+        },
+        {
+          "command": "generate_speech",
+          "text_source": "assets/text/quotes-example.txt",
+          "output": "output/audio/quotes-example.wav"
+        },
+        {
+          "command": "generate_speech",
+          "text_source": "assets/text/word-play-concept.txt",
+          "output": "output/audio/word-play-concept.wav"
+        },
+        {
+          "command": "generate_speech",
+          "text_source": "assets/text/word-play-example.txt",
+          "output": "output/audio/word-play-example.wav"
+        },
+        {
+          "command": "generate_speech",
+          "text_source": "assets/text/exaggerations-concept.txt",
+          "output": "output/audio/exaggerations-concept.wav"
+        },
+        {
+          "command": "generate_speech",
+          "text_source": "assets/text/exaggerations-example.txt",
+          "output": "output/audio/exaggerations-example.wav"
+        },
+        {
+          "command": "generate_speech",
+          "text_source": "assets/text/download-scene.txt",
+          "output": "output/audio/download-scene.wav"
         },
         {
           "command": "add_silence",
