@@ -1,0 +1,48 @@
+{
+  "subproject-title": "Work on video activities",
+  "activities": [
+    {
+      "name"    : "Prepare video files",
+      "type"    : "moviepy",
+      "defaults": {
+        "codec"   : "libx264",
+        "fps"     : 50
+      },
+      "actions" : [
+        {
+          "command"             : "generate-video",
+          "video-name"          : "multimedia-builder",
+          "input-image-path"    : "output/image/multimedia-builder.jpg",
+          "input-audio-path"    : "output/audio/multimedia-builder.wav",
+          "output-video-path"   : "output/video/multimedia-builder.mp4"
+        },
+        {
+          "command"             : "apply-text-overlay",
+          "video-name"          : "multimedia-builder",
+          "text"                : "Welcome to Multimedia builder.",
+          "font-size"           : 48,
+          "color"               : "white",
+          "background-color"    : "black",
+          "background-opacity"  : 0.5,
+          "x"                   : 100,
+          "y"                   : 100,
+          "output-video-path"   : "output/video/multimedia-builder-with-overlay.mp4"
+        },
+        {
+          "command"             : "generate-subtitle",
+          "input-video-path"    : "output/video/multimedia-builder-with-overlay.mp4",
+          "output-text-path"    : "output/text/multimedia-builder.srt"
+        },
+        {
+          "command"             : "apply-subtitle",
+          "input-video-path"    : "output/video/multimedia-builder-with-overlay.mp4",
+          "background-color"    : "black",
+          "background-opacity"  : 0.5,
+          "text-position"       : ["center", "bottom"],
+          "input-text-path"     : "output/text/multimedia-builder.srt",
+          "output-video-path"   : "output/video/multimedia-builder-with-subtitle.mp4"
+        }
+      ]
+    }
+  ]
+}

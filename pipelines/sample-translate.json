@@ -1,0 +1,19 @@
+{
+  "subproject-title": "Text translation activities",
+  "activities": [
+    {
+      "name"    : "Translate text from english to romanian",
+      "type"    : "gtrans",
+      "defaults": {},
+      "actions" : [
+        {
+          "command"         : "translate-text",
+          "text"            : "Multimedia builder in action!",
+          "lang-source"     : "en",
+          "lang-target"     : "ro",
+          "output-text-path": "output/text/translated.txt"
+        }
+      ]
+    }
+  ]
+}

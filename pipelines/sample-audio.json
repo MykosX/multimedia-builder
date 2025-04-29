@@ -1,0 +1,38 @@
+{
+  "subproject-title": "Work on audio activities",
+  "activities": [
+    {
+      "name"    : "Prepare speech files",
+      "type"    : "tts",
+      "defaults": {
+        "language"     : "en",
+        "model-path"   : "tts_models/en/ljspeech/vits"
+      },
+      "actions" : [
+        {
+          "command"                 : "generate-speech",
+          "audio-name"              : "multimedia-builder",
+          "text"                    : "Welcome to Multimedia builder. Here you are able to show your vision to others.",
+          "output-audio-path"       : "output/audio/multimedia-builder.wav"
+        },
+        {
+          "command"                 : "generate-transcript",
+          "audio-name"              : "multimedia-builder",
+          "output-text-path"        : "output/text/multimedia-builder.srt"
+        },
+        {
+          "command"                 : "create-silence",
+          "audio-name"              : "audio-silence",
+          "duration"                : 2.0,
+          "output-audio-path"       : "output/audio/silence.wav"
+        },
+        {
+          "command"                 : "combine-audios",
+          "input-audio-paths"       : ["output/audio/multimedia-builder.wav"],
+          "audio-names"             : ["audio-silence"],
+          "output-audio-path"       : "output/audio/multimedia-builder-with-silence.wav"
+        }
+      ]
+    }
+  ]
+}
