@@ -1,0 +1,10 @@
+wheel
+TTS
+pydub
+moviepy
+Pillow
+opencv-python
+torch
+diffusers
+transformers
+accelerate
