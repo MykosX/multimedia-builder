@@ -1,16 +1,20 @@
 {
-    "project_title": "Describe Techniques",
+    "project-title": "Describe Techniques",
     "pipelines": [
         {
-            "path": "pipelines/sample_audio.json",
+            "path": "pipelines/sample-audio.json",
             "enabled": true
         },
         {
-            "path": "pipelines/sample_image.json",
+            "path": "pipelines/sample-image.json",
             "enabled": true
         },
         {
-            "path": "pipelines/sample_video.json",
+            "path": "pipelines/sample-translate.json",
+            "enabled": false
+        },
+        {
+            "path": "pipelines/sample-video.json",
             "enabled": true
         }
     ]

@@ -1,0 +1,22 @@
+{
+  "subproject-title": "Work on image activities",
+  "activities": [
+    {
+      "name"    : "Prepare image files",
+      "type"    : "sdp",
+      "defaults": {
+        "model-path": "runwayml/stable-diffusion-v1-5"
+      },
+      "actions" : [
+        {
+          "command"                 : "generate-image",
+          "enabled"                 : true,
+          "text"                    : "Welcome to multimedia builder.",
+          "image-name"              : "target-scene",
+          "input-text-path"         : "assets/text/multimedia-builder.txt",
+          "output-image-path"       : "output/image/multimedia-builder.jpg"
+        }
+      ]
+    }
+  ]
+}

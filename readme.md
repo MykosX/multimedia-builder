@@ -64,15 +64,17 @@ pip install -r requirements.txt
 
 This will install the following dependencies:
 - `wheel`
-- `TTS`
-- `pydub`
-- `moviepy`
-- `Pillow`
-- `opencv-python`
-- `torch`
-- `diffusers`
-- `transformers`
 - `accelerate`
+- `diffusers`
+- `googletrans`
+- `moviepy`
+- `pillow`
+- `pydub`
+- `pysrt`
+- `torch`
+- `transformers`
+- `TTS`
+- `whisper`
 
 ---
 
@@ -97,14 +99,15 @@ Here is a brief overview of the project structure:
 project-root/
 ├── runner.py                   # Runner for the project
 ├── manager.json                # Project manager configuration
-├── pipelines/                  # Pipeline configurations
-│   ├── sample_audio.json       # Sample audio pipeline
-│   ├── sample_image.json       # Sample image pipeline
-│   └── sample_video.json       # Sample video pipeline
-├── code/                       # Main codebase
-│   ├── handlers/               # Custom handlers (TTS, image generation, etc.)
+├── core/                       # Main codebase
+│   ├── frameworks/             # Custom handlers (TTS, SDP, etc.)
 │   ├── utils/                  # Utilities like logging, file operations, etc.
 │   └── manager.py              # Main script to manage pipeline execution
+├── pipelines/                  # Pipeline configurations
+│   ├── sample-audio.json       # Sample audio pipeline
+│   ├── sample-image.json       # Sample image pipeline
+│   ├── sample-translate.json   # Sample translate pipeline
+│   └── sample-video.json       # Sample video pipeline
 ├── requirements.txt            # List of project dependencies
 └── README.md                   # Project documentation
 ```
@@ -116,22 +119,16 @@ project-root/
 The project supports the following handlers and commands:
 
 ### Handlers:
-1. **TTS (Text-to-Speech Handler)**: 
-   - **Command**: `generate_speech`
-   - **Description**: Generates speech from a given text.
+1. **TTS (Text-to-Speech Handler)**
 
-2. **SDP (Stable Diffusion Processor)**: 
-   - **Command**: `generate_image`
-   - **Description**: Generates images based on textual descriptions.
+2. **SDP (Stable Diffusion Processor)**
 
-3. **MoviePy Handler**:
-   - **Command**: `process_video`
-   - **Description**: Performs video-related tasks like editing, transformation, etc.
+3. **MoviePy Handler**
 
 ### Example Commands:
-- `generate_speech`: Converts text into speech.
-- `generate_image`: Generates an image based on a textual description.
-- `process_video`: Processes video files based on specified actions.
+- `generate-speech`: Converts text into speech.
+- `generate-image` : Generates an image based on a textual description.
+- `generate-video` : Generates video files based on specified inputs.
 
 ---
 
