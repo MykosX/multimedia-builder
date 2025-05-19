@@ -11,26 +11,30 @@
       "actions" : [
         {
           "command"                 : "generate-speech",
-          "audio-name"              : "multimedia-builder",
-          "text"                    : "Welcome to Multimedia builder. Here you are able to show your vision to others.",
-          "output-audio-path"       : "output/audio/multimedia-builder.wav"
+          "enabled"                 : true,
+          "audio-name"              : "something-strange",
+          "text"                    : "What's strange in this image?",
+          "output-audio-path"       : "output/audio/something-strange.wav"
         },
         {
           "command"                 : "generate-transcript",
-          "audio-name"              : "multimedia-builder",
-          "output-text-path"        : "output/text/multimedia-builder.srt"
+          "enabled"                 : false,
+          "audio-name"              : "something-strange",
+          "output-text-path"        : "output/text/something-strange.srt"
         },
         {
           "command"                 : "create-silence",
+          "enabled"                 : true,
           "audio-name"              : "audio-silence",
           "duration"                : 2.0,
           "output-audio-path"       : "output/audio/silence.wav"
         },
         {
           "command"                 : "combine-audios",
-          "input-audio-paths"       : ["output/audio/multimedia-builder.wav"],
+          "enabled"                 : true,
+          "input-audio-paths"       : ["output/audio/something-strange.wav"],
           "audio-names"             : ["audio-silence"],
-          "output-audio-path"       : "output/audio/multimedia-builder-with-silence.wav"
+          "output-audio-path"       : "output/audio/something-strange-with-silence.wav"
         }
       ]
     }

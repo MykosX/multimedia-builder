@@ -15,6 +15,6 @@ class GTransHandler(BaseHandler):
             self.logger.info("[GTransHandler] Translating")
             
             gtrans_builder = GTransBuilder()
-            gtrans_builder.set_text(action).translate(action)
+            gtrans_builder.translate(action)
         except Exception as e:
             self.logger.error(f"[GTransHandler] Error in translate-text: {e}")

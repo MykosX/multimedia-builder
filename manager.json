@@ -11,7 +11,7 @@
         },
         {
             "path": "pipelines/sample-translate.json",
-            "enabled": false
+            "enabled": true
         },
         {
             "path": "pipelines/sample-video.json",

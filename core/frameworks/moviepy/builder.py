@@ -139,7 +139,7 @@ class MoviePyBuilder(BaseBuilder):
         self.video = concatenate_videoclips(clips, method="compose")
         return self
 
-    def generate_subtitle(self, action) -> 'MoviePyBuilder':
+    def generate_subtitles(self, action) -> 'MoviePyBuilder':
         """Use Whisper to transcribe embedded audio with phrase timestamps."""
         subtitle_output_path= action.get("output-text-path")
 
@@ -192,6 +192,102 @@ class MoviePyBuilder(BaseBuilder):
             subrip_time.seconds +
             subrip_time.milliseconds / 1000.0
         )
+    
+    def create_text_overlay(self, action) -> 'MoviePyBuilder':
+        """Creates a text overlay."""
+        font                = action.get("font", "Arial")
+        font_size           = action.get("font-size", 32)
+        color               = action.get("color", "white")
+        text_position       = action.get("position", ("center", "center"))
+        duration            = action.get("duration", 1.0)
+        start_time          = action.get("start-time", 0.0)
+        stop_time           = action.get("stop-time", 1.0)
+
+        text = self.set_text(action)
+
+        if not text:
+            self.logger.error("[MoviePyBuilder] Cannot create text clip: no text set.")
+            return self
+
+        if not duration:
+            duration = stop_time - start_time
+        else:
+            start_time = 0
+        
+        text_clip = TextClip(text, font=font, fontsize=font_size, color=color, method="label")
+        text_clip = text_clip.set_position(text_position).set_duration(duration).set_start(start_time)
+
+        self.video = text_clip
+        return self
+    
+    def with_background(self, action) -> 'MoviePyBuilder':
+        """Add background to existing video."""
+        video_w, video_h = self.video.size
+        
+        background_color    = action.get("color", "black")
+        background_opacity  = action.get("opacity", 0.5)
+        width               = action.get("width")
+        height              = action.get("height")
+
+        current_clip = self.video
+        if not (width and height):
+            size = current_clip.size
+        else:
+            size = (width, height)
+        rgb = self.parse_color(background_color)
+
+        color_clip = ColorClip(size=size, color=rgb).set_opacity(background_opacity).set_position(current_clip.position).set_duration(current_clip.duration).set_start(current_clip.start)
+
+        self.video = CompositeVideoClip([color_clip, current_clip])
+        return self
+    
+    def place_clip(self, action) -> 'MoviePyBuilder':
+        """Position current clip."""
+        x                   = action.get("x")
+        y                   = action.get("y")
+        start_time          = action.get("start-time", 0.0)
+        stop_time           = action.get("stop-time", 1.0)
+
+        current_clip = self.video
+        duration = stop_time - start_time
+        
+        if not (x and y):
+            position = ("center", "center")
+        else:
+            position = (x, y)
+
+        current_clip = current_clip.set_position(position).set_duration(duration).set_start(start_time)
+
+        self.video = current_clip
+        return self
+
+    def compose_clips(self, action) -> 'MoviePyBuilder':
+        """Compose video clips from file paths or cache keys over one video."""
+        video_paths         = action.get("input-video-paths")
+        video_names         = action.get("video-names")
+
+        clips = []
+
+        # Load audio from file paths
+        if video_paths:
+            for file_path in video_paths:
+                clip = self.load_video(file_path)
+                if clip:
+                    clips.append(clip)
+
+        # Load audio from cache
+        if video_names:
+            for video_name in video_names:
+                clip = self.load_from_cache("video", video_name)
+                if clip:
+                    clips.append(clip)
+
+        if not clips:
+            self.logger.error("[TTSBuilder] No valid video clips found to merge.")
+            return self
+
+        self.video = CompositeVideoClip([self.video] + clips)
+        return self
 
     def insert_overlay(self, action) -> 'MoviePyBuilder':
         """Add the current overlay pair (text + background) to the list of overlays."""
@@ -211,16 +307,16 @@ class MoviePyBuilder(BaseBuilder):
         start_time          = action.get("start-time", 0.0)
         stop_time           = action.get("stop-time", 1.0)
 
-        self.set_text(action)
+        text = self.get_text(action)
 
-        if not self.text:
+        if not text:
             self.logger.error("[MoviePyBuilder] Cannot create text clip: no text set.")
             return self
 
         duration = stop_time - start_time
         box_size = (width, height)
         
-        text_clip = TextClip(self.text, font=font, fontsize=font_size, color=color, method="label")
+        text_clip = TextClip(text, font=font, fontsize=font_size, color=color, method="label")
         text_clip = text_clip.set_position(text_position).set_duration(duration).set_start(0)
 
         if size_behavior == "full":

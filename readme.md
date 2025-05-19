@@ -68,13 +68,7 @@ This will install the following dependencies:
 - `diffusers`
 - `googletrans`
 - `moviepy`
-- `pillow`
-- `pydub`
-- `pysrt`
-- `torch`
-- `transformers`
-- `TTS`
-- `whisper`
+...
 
 ---
 
@@ -140,4 +134,4 @@ Contributions are welcome! If you have suggestions or improvements, please feel 
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is free for commercial or private use.

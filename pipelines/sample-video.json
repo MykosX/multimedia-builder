@@ -11,36 +11,40 @@
       "actions" : [
         {
           "command"             : "generate-video",
+          "enabled"             : true,
           "video-name"          : "multimedia-builder",
-          "input-image-path"    : "output/image/multimedia-builder.jpg",
-          "input-audio-path"    : "output/audio/multimedia-builder.wav",
-          "output-video-path"   : "output/video/multimedia-builder.mp4"
+          "input-image-path"    : "output/image/strange-image.jpg",
+          "input-audio-path"    : "output/audio/something-strange.wav",
+          "output-video-path"   : "output/video/strange-situation.mp4"
         },
         {
           "command"             : "apply-text-overlay",
+          "enabled"             : false,
           "video-name"          : "multimedia-builder",
-          "text"                : "Welcome to Multimedia builder.",
+          "text"                : "Is this for real?",
           "font-size"           : 48,
           "color"               : "white",
           "background-color"    : "black",
           "background-opacity"  : 0.5,
           "x"                   : 100,
           "y"                   : 100,
-          "output-video-path"   : "output/video/multimedia-builder-with-overlay.mp4"
+          "output-video-path"   : "output/video/strange-situation-with-overlay.mp4"
         },
         {
-          "command"             : "generate-subtitle",
-          "input-video-path"    : "output/video/multimedia-builder-with-overlay.mp4",
-          "output-text-path"    : "output/text/multimedia-builder.srt"
+          "command"             : "generate-subtitles",
+          "enabled"             : false,
+          "input-video-path"    : "output/video/strange-situation-with-overlay.mp4",
+          "output-text-path"    : "output/text/strange-situation.srt"
         },
         {
-          "command"             : "apply-subtitle",
-          "input-video-path"    : "output/video/multimedia-builder-with-overlay.mp4",
+          "command"             : "apply-subtitles",
+          "enabled"             : false,
+          "input-video-path"    : "output/video/strange-situation-with-overlay.mp4",
           "background-color"    : "black",
           "background-opacity"  : 0.5,
           "text-position"       : ["center", "bottom"],
-          "input-text-path"     : "output/text/multimedia-builder.srt",
-          "output-video-path"   : "output/video/multimedia-builder-with-subtitle.mp4"
+          "input-text-path"     : "output/text/strange-situation.srt",
+          "output-video-path"   : "output/video/strange-situation-with-subtitle.mp4"
         }
       ]
     }

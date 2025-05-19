@@ -7,10 +7,14 @@ class MoviePyHandler(BaseHandler):
         super().__init__()
         self.commands       = {
             "generate-video"        : self.generate_video,
-            "combine-videos"        : self.combine_videos,
+            "merge-videos"          : self.merge_videos,
+            "compose-clips"         : self.compose_clips,
             "apply-text-overlay"    : self.apply_text_overlay,
-            "apply-subtitle"        : self.apply_subtitle,
-            "generate-subtitle"     : self.generate_subtitle
+            "create-text-overlay"   : self.create_text_overlay,
+            "with-background"       : self.with_background,
+            "place-clip"            : self.place_clip,
+            "apply-subtitles"       : self.apply_subtitles,
+            "generate-subtitles"    : self.generate_subtitles
         }
 
     def load_defaults(self, defaults):
@@ -28,7 +32,7 @@ class MoviePyHandler(BaseHandler):
         except Exception as e:
             self.logger.error(f"[MoviePyHandler] Error in generate-video: {e}")
 
-    def combine_videos(self, action):
+    def merge_videos(self, action):
         try:
             self.logger.info("[MoviePyHandler] Combining videos")
             
@@ -36,6 +40,42 @@ class MoviePyHandler(BaseHandler):
             moviePyBuilder.merge_videos(action).save(action)
         except Exception as e:
             self.logger.error(f"[MoviePyHandler] Error in combine-videos: {e}")
+
+    def compose_clips(self, action):
+        try:
+            self.logger.info("[MoviePyHandler] Composing clips over existing video")
+            
+            moviePyBuilder = MoviePyBuilder()
+            moviePyBuilder.load(action).compose_clips(action).save(action)
+        except Exception as e:
+            self.logger.error(f"[MoviePyHandler] Error in compose-clips: {e}")
+
+    def create_text_overlay(self, action):
+        try:
+            self.logger.info("[MoviePyHandler] Creating text overlay")
+            
+            moviePyBuilder = MoviePyBuilder()
+            moviePyBuilder.load(action).create_text_overlay(action).save(action)
+        except Exception as e:
+            self.logger.error(f"[MoviePyHandler] Error in create-text-overlay: {e}")
+
+    def with_background(self, action):
+        try:
+            self.logger.info("[MoviePyHandler] Applying background to existing video")
+            
+            moviePyBuilder = MoviePyBuilder()
+            moviePyBuilder.load(action).with_background(action).save(action)
+        except Exception as e:
+            self.logger.error(f"[MoviePyHandler] Error in with-background: {e}")
+
+    def place_clip(self, action):
+        try:
+            self.logger.info("[MoviePyHandler] Placing the clip on canvas")
+            
+            moviePyBuilder = MoviePyBuilder()
+            moviePyBuilder.load(action).place_clip(action).save(action)
+        except Exception as e:
+            self.logger.error(f"[MoviePyHandler] Error in place-clip: {e}")
 
     def apply_text_overlay(self, action):
         try:
@@ -46,9 +86,9 @@ class MoviePyHandler(BaseHandler):
             moviePyBuilder.insert_overlay(action).apply_overlays()
             moviePyBuilder.save(action)
         except Exception as e:
-            self.logger.error(f"[MoviePyHandler] Error adding text overlay: {e}")
+            self.logger.error(f"[MoviePyHandler] Error in apply-textoverlay: {e}")
 
-    def apply_subtitle(self, action):
+    def apply_subtitles(self, action):
         try:
             self.logger.info("[MoviePyHandler] Adding subtitles")
             
@@ -57,13 +97,13 @@ class MoviePyHandler(BaseHandler):
             moviePyBuilder.add_subtitles(action).apply_overlays()
             moviePyBuilder.save(action)
         except Exception as e:
-            self.logger.error(f"[MoviePyHandler] Error adding subtitles: {e}")
+            self.logger.error(f"[MoviePyHandler] Error in apply-subtitless: {e}")
 
-    def generate_subtitle(self, action):
+    def generate_subtitles(self, action):
         try:
             self.logger.info("[MoviePyHandler] Generating subtitles from source.")
             
             moviePyBuilder = MoviePyBuilder()
-            moviePyBuilder.load(action).generate_subtitle(action)
+            moviePyBuilder.load(action).generate_subtitles(action)
         except Exception as e:
-            self.logger.error(f"[MoviePyHandler] Error in generate-subtitle: {e}")
+            self.logger.error(f"[MoviePyHandler] Error in generate-subtitles: {e}")
