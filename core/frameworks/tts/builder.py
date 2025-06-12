@@ -76,8 +76,10 @@ class TTSBuilder(BaseBuilder):
         speech_speaker      = action.get("speech-speaker", None)
         output_audio_path   = action.get("output-audio-path")
         
+        text = self.get_text(action)
+        
         kwargs = {
-            "text": self.text,
+            "text": text,
             "file_path": output_audio_path,
             "speed": speech_speed,
             "energy": speech_energy,

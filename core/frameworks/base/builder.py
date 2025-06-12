@@ -7,7 +7,6 @@ class BaseBuilder(ABC):
     
     def __init__(self):
         self.logger         = SimpleLogger.get_logger()
-        self.text           = None
 
     @abstractmethod
     def load(self, action) -> 'BaseBuilder':
@@ -39,19 +38,20 @@ class BaseBuilder(ABC):
         except Exception as e:
             self.logger.error(f"[BaseBuilder] Error while saving text to {destination_path}: {e}")
 
-    def set_text(self, action) -> 'TTSBuilder':
-        """Set text directly or read it from a file."""
-        text                = action.get("text")
-        input_text_path     = action.get("input-text-path")
+    def get_text(self, action, text_key="text", text_path_key="input-text-path"):
+        """Gets text directly or read it from a file."""
+        text                = action.get(text_key)
+        input_text_path     = action.get(text_path_key)
 
         if text:
-            self.text = text
+            text_data = text
         elif input_text_path:
-            self.text = self.load_text(input_text_path)
+            text_data = self.load_text(input_text_path)
         else:
-            self.logger.error("[BaseBuilder] No text source specified (direct text or from file).")
+            self.logger.warning(f"[BaseBuilder] No text source specified ('{text_key}' or '{text_path_key}').")
+            text_data = None
             
-        return self
+        return text_data
 
     def load_from_cache(self, data_type, cache_key):
         name_key = f"{data_type}-{cache_key}"

@@ -27,8 +27,7 @@ class TTSHandler(BaseHandler):
             self.logger.info("[TTSHandler] Generating speech")
             
             tts_builder = TTSBuilder()
-            tts_builder.set_tts(self.tts).set_text(action)
-            tts_builder.to_speech(action).save(action)
+            tts_builder.set_tts(self.tts).to_speech(action).save(action)
         except Exception as e:
             self.logger.error(f"[TTSHandler] Error in generate-speech: {e}")
 

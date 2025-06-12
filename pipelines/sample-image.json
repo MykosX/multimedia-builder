@@ -4,17 +4,27 @@
     {
       "name"    : "Prepare image files",
       "type"    : "sdp",
-      "defaults": {
-        "model-path": "runwayml/stable-diffusion-v1-5"
-      },
+      "defaults": { },
       "actions" : [
         {
-          "command"                 : "generate-image",
+          "command"                 : "text-to-image",
           "enabled"                 : true,
-          "text"                    : "Welcome to multimedia builder.",
-          "image-name"              : "target-scene",
-          "input-text-path"         : "assets/text/multimedia-builder.txt",
-          "output-image-path"       : "output/image/multimedia-builder.jpg"
+          "model-path"              : "Lykon/dreamshaper-8",
+          "prompt"                  : "An astronaut riding a horse on the moon",
+          "image-name"              : "strange-image",
+          "output-image-path"       : "output/image/strange-image.jpg"
+        },
+        {
+          "command"                 : "draw-text",
+          "enabled"                 : false,
+          "image-name"              : "strange-image",
+          "text"                    : "Is this for real?",
+          "text-color"              : "white",
+          "font-name"               : "Arial",
+          "font-size"               :  50,
+          "x"                       :  50,
+          "y"                       :  50,
+          "output-image-path"       : "output/image/strange-image-with-text.jpg"
         }
       ]
     }
