@@ -13,15 +13,15 @@
           "command"             : "generate-video",
           "enabled"             : true,
           "video-name"          : "multimedia-builder",
-          "input-image-path"    : "output/image/strange-image.jpg",
+          "input-image-path"    : "output/image/multimedia-builder.jpg",
           "input-audio-path"    : "output/audio/something-strange.wav",
-          "output-video-path"   : "output/video/strange-situation.mp4"
+          "output-video-path"   : "output/video/multimedia-builder.mp4"
         },
         {
           "command"             : "apply-text-overlay",
-          "enabled"             : false,
+          "enabled"             : true,
           "video-name"          : "multimedia-builder",
-          "text"                : "Is this for real?",
+          "text"                : "Do you notice something strange here?",
           "font-size"           : 48,
           "color"               : "white",
           "background-color"    : "black",
@@ -32,13 +32,13 @@
         },
         {
           "command"             : "generate-subtitles",
-          "enabled"             : false,
+          "enabled"             : true,
           "input-video-path"    : "output/video/strange-situation-with-overlay.mp4",
           "output-text-path"    : "output/text/strange-situation.srt"
         },
         {
           "command"             : "apply-subtitles",
-          "enabled"             : false,
+          "enabled"             : true,
           "input-video-path"    : "output/video/strange-situation-with-overlay.mp4",
           "background-color"    : "black",
           "background-opacity"  : 0.5,

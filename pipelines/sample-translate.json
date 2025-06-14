@@ -8,7 +8,7 @@
       "actions" : [
         {
           "command"         : "translate-text",
-          "text"            : "Multimedia builder in action!",
+          "text"            : "Welcome to Multimedia builder. Here you are able to show your vision to others.",
           "lang-source"     : "en",
           "lang-target"     : "ro",
           "output-text-path": "output/text/translated.txt"

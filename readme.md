@@ -18,7 +18,7 @@ This project focuses on various multimedia processing tasks using different tool
 
 ## Project Setup
 
-Before running the project, ensure that you have Python 3.7 or higher installed. Follow the steps below to set up the environment and install the required dependencies.
+Before running the project, ensure that you have Python 3.11 installed. Follow the steps below to set up the environment and install the required dependencies.
 
 ---
 

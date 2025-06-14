@@ -6,7 +6,6 @@ __pycache__/
 **/__pycache__/
 
 # Ignore input and output folders
-assets/
 output/
 
 # Ignore temporary files

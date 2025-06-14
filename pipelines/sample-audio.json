@@ -5,20 +5,19 @@
       "name"    : "Prepare speech files",
       "type"    : "tts",
       "defaults": {
-        "language"     : "en",
         "model-path"   : "tts_models/en/ljspeech/vits"
       },
       "actions" : [
         {
-          "command"                 : "generate-speech",
+          "command"                 : "text-to-speech",
           "enabled"                 : true,
           "audio-name"              : "something-strange",
-          "text"                    : "What's strange in this image?",
+          "text"                    : "Do you notice something strange here?",
           "output-audio-path"       : "output/audio/something-strange.wav"
         },
         {
-          "command"                 : "generate-transcript",
-          "enabled"                 : false,
+          "command"                 : "audio-to-text",
+          "enabled"                 : true,
           "audio-name"              : "something-strange",
           "output-text-path"        : "output/text/something-strange.srt"
         },
@@ -30,11 +29,26 @@
           "output-audio-path"       : "output/audio/silence.wav"
         },
         {
+          "command"                 : "show-models",
+          "enabled"                 : true
+        },
+        {
+          "command"                 : "show-speakers",
+          "enabled"                 : true
+        },
+        {
           "command"                 : "combine-audios",
           "enabled"                 : true,
           "input-audio-paths"       : ["output/audio/something-strange.wav"],
           "audio-names"             : ["audio-silence"],
           "output-audio-path"       : "output/audio/something-strange-with-silence.wav"
+        },
+        {
+          "command"                 : "split-audio",
+          "enabled"                 : true,
+          "input-audio-path"        : "output/audio/something-strange-with-silence.wav",
+          "split-times"             : [1.50, 3.00],
+          "output-audio-path"       : "output/audio/something-strange-split.wav"
         }
       ]
     }

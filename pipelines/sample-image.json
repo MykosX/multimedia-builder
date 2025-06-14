@@ -9,22 +9,30 @@
         {
           "command"                 : "text-to-image",
           "enabled"                 : true,
-          "model-path"              : "Lykon/dreamshaper-8",
-          "prompt"                  : "An astronaut riding a horse on the moon",
-          "image-name"              : "strange-image",
-          "output-image-path"       : "output/image/strange-image.jpg"
+          "prompt-path"             : "assets/text/multimedia-builder.txt",
+          "negative-prompt-path"    : "assets/text/negative-prompt.txt",
+          "width"                   : 1024,
+          "height"                  :  768,
+          "guidance-scale"          : 12.0,
+          "strength"                :  0.5,
+          "inference-steps"         :   30,
+          "seed"                    :  112,
+          "output-image-path"       : "output/image/multimedia-builder.jpg"
         },
         {
-          "command"                 : "draw-text",
-          "enabled"                 : false,
-          "image-name"              : "strange-image",
-          "text"                    : "Is this for real?",
-          "text-color"              : "white",
-          "font-name"               : "Arial",
-          "font-size"               :  50,
-          "x"                       :  50,
-          "y"                       :  50,
-          "output-image-path"       : "output/image/strange-image-with-text.jpg"
+          "command"                 : "image-to-image",
+          "enabled"                 : true,
+          "model-path"              : "MykosX/delia-anime-sd",
+          "seed-image-path"         : "assets/image/couple-having-fun.jpg",
+          "prompt-path"             : "assets/text/positive-prompt.txt",
+          "negative-prompt-path"    : "assets/text/negative-prompt.txt",
+          "width"                   : 1024,
+          "height"                  :  768,
+          "guidance-scale"          : 12.0,
+          "strength"                :  0.5,
+          "inference-steps"         :   30,
+          "seed"                    :  112,
+          "output-image-path"       : "output/image/couple-having-fun.jpg"
         }
       ]
     }

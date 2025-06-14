@@ -1,46 +1,42 @@
 
 from core.frameworks.base   import BaseHandler
 from core.frameworks.tts    import TTSBuilder
-from TTS.api                import TTS
 
 class TTSHandler(BaseHandler):
     def __init__(self):
         super().__init__()
-        self.tts            = None
 
         self.commands       = {
-            "generate-speech"       : self.generate_speech,
-            "create-silence"        : self.create_silence,
-            "combine-audios"        : self.combine_audios,
-            "generate-transcript"   : self.generate_transcript
+            "audio-to-text"             : self.audio_to_text,
+            "combine-audios"            : self.combine_audios,
+            "create-silence"            : self.create_silence,
+            "show-models"               : self.show_models,
+            "show-speakers"             : self.show_speakers,
+            "split-audio"               : self.split_audio,
+            "text-to-speech"            : self.text_to_speech
         }
 
     def load_defaults(self, defaults):
-        self.language       = defaults.get("language", "en")
-        self.model_path     = defaults.get("model-path", "tts_models/en/ljspeech/vits")
+        TTSBuilder.load_defaults(defaults)
 
-        self.tts = TTS(self.model_path)
-        self.logger.debug(f"[TTSHandler] Initialized TTS model: {self.model_path}")
+        #self.logger.debug(f"[TTSHandler] Initialized default TTS model: {model_path}")
 
-    def generate_speech(self, action):
+    # audio-to-text command:
+    # - loads the specified audio
+    # - generates and saves transcript
+    def audio_to_text(self, action):
         try:
-            self.logger.info("[TTSHandler] Generating speech")
-            
-            tts_builder = TTSBuilder()
-            tts_builder.set_tts(self.tts).to_speech(action).save(action)
-        except Exception as e:
-            self.logger.error(f"[TTSHandler] Error in generate-speech: {e}")
-
-    def create_silence(self, action):
-        try:
-            self.logger.info("[TTSHandler] Creating silence")
+            self.logger.info(f"[TTSHandler] Generating transcript from audio")
 
             tts_builder = TTSBuilder()
-            tts_builder.create_silence(action).save(action)
-            
-        except Exception as e:
-            self.logger.error(f"[TTSHandler] Error in create-silence: {e}")
+            tts_builder.load(action).generate_transcript(action)
 
+        except Exception as e:
+            self.logger.error(f"[TTSHandler] Error in audio-to-text: {e}")
+
+    # combine-audios command:
+    # - combines provided audios into one final audio
+    # - saves the final audio
     def combine_audios(self, action):
         try:
             self.logger.info(f"[TTSHandler] Starting combining audios.")
@@ -51,12 +47,64 @@ class TTSHandler(BaseHandler):
         except Exception as e:
             self.logger.error(f"[TTSHandler] Error in combine-audios: {e}")
 
-    def generate_transcript(self, action):
+    # create-silence command:
+    # - creates a silenced audio
+    # - saves the resulted audio
+    def create_silence(self, action):
         try:
-            self.logger.info(f"[TTSHandler] Generating transcript from audio")
+            self.logger.info("[TTSHandler] Creating silence")
 
             tts_builder = TTSBuilder()
-            tts_builder.load(action).to_transcript(action)
-
+            tts_builder.create_silence(action).save(action)
+            
         except Exception as e:
-            self.logger.error(f"[TTSHandler] Error in generate-transcript: {e}")
+            self.logger.error(f"[TTSHandler] Error in create-silence: {e}")
+
+    # show-models command:
+    # - shows available TTS models
+    def show_models(self, action):
+        try:
+            self.logger.info("[TTSHandler] Showing available TTS models")
+
+            tts_builder = TTSBuilder()
+            tts_builder.show_models(action)
+            
+        except Exception as e:
+            self.logger.error(f"[TTSHandler] Error in show-models: {e}")
+
+    # show-speakers command:
+    # - shows speakers for specific TTS model
+    def show_speakers(self, action):
+        try:
+            self.logger.info("[TTSHandler] Showing available speakers for selected TTS model")
+
+            tts_builder = TTSBuilder()
+            tts_builder.show_speakers(action)
+            
+        except Exception as e:
+            self.logger.error(f"[TTSHandler] Error in show-speakers: {e}")
+
+    # split-audio command:
+    # - loads the target audio
+    # - splits it in more audios
+    def split_audio(self, action):
+        try:
+            self.logger.info("[TTSHandler] Splitting audio file")
+
+            tts_builder = TTSBuilder()
+            tts_builder.load(action).split_audio(action)
+            
+        except Exception as e:
+            self.logger.error(f"[TTSHandler] Error in split-audio: {e}")
+
+    # text-to-speech command:
+    # - generates speech
+    # - saves the audio file
+    def text_to_speech(self, action):
+        try:
+            self.logger.info("[TTSHandler] Generating speech from text")
+            
+            tts_builder = TTSBuilder()
+            tts_builder.text_to_speech(action).save(action)
+        except Exception as e:
+            self.logger.error(f"[TTSHandler] Error in text-to-speech: {e}")
