@@ -250,7 +250,7 @@ class TTSBuilder(BaseBuilder):
 
     # Generates speech based on provided parameters
     def text_to_speech(self, action) -> 'TTSBuilder':
-        """Synthetyze the speech from current text and other settings."""
+        """Synthesize the speech from current text and other settings."""
         output_audio_path   = action.get("output-audio-path")
         
         tts_settings = self.resolve_model_settings(action)

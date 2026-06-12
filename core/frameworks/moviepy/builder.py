@@ -4,7 +4,7 @@ import whisper
 
 from core.frameworks.base   import BaseBuilder
 from core.utils             import Utils
-from moviepy.editor         import AudioFileClip, concatenate_videoclips, ColorClip, CompositeVideoClip, ImageClip, VideoFileClip, TextClip
+from moviepy                import AudioFileClip, concatenate_videoclips, ColorClip, CompositeVideoClip, ImageClip, VideoFileClip, TextClip
 from PIL                    import ImageColor
 
 class MoviePyBuilder(BaseBuilder):
@@ -106,8 +106,8 @@ class MoviePyBuilder(BaseBuilder):
         image = self.load_image(input_image_path)
         audio = self.load_audio(input_audio_path)
         
-        image.set_fps(self.fps).set_duration(audio.duration)
-        self.video = image.set_audio(audio).set_duration(audio.duration)
+        image = image.with_fps(self.fps).with_duration(audio.duration)
+        self.video = image.with_audio(audio).with_duration(audio.duration)
             
         return self
 

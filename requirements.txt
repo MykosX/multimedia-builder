@@ -1,13 +1,28 @@
-wheel==0.45.1
-accelerate==1.7.0
-colorama==0.4.6
-diffusers==0.33.1
-googletrans==3.1.0a0
-moviepy==1.0.3
-openai-whisper==20240930
-pillow==11.2.1
+# =====================
+# CORE ML STACK (modern stable 2026)
+# =====================
+torch==2.12.0
+transformers==5.9.0
+diffusers==0.38.0
+accelerate==1.13.0
+
+# =====================
+# AUDIO / SPEECH
+# =====================
+openai-whisper==20250625
+TTS==0.22.0
 pydub==0.25.1
 pysrt==1.1.2
-torch==2.7.1
-transformers==4.52.4
-TTS==0.22.0
+
+# =====================
+# IMAGE / VIDEO
+# =====================
+pillow==11.3.0
+moviepy==2.2.1
+
+# =====================
+# UTILITIES
+# =====================
+wheel==0.47.0
+colorama==0.4.6
+googletrans==4.0.2

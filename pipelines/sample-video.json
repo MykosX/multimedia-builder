@@ -11,15 +11,37 @@
       "actions" : [
         {
           "command"             : "generate-video",
-          "enabled"             : true,
+          "enabled"             : false,
           "video-name"          : "multimedia-builder",
           "input-image-path"    : "output/image/multimedia-builder.jpg",
           "input-audio-path"    : "output/audio/something-strange.wav",
           "output-video-path"   : "output/video/multimedia-builder.mp4"
         },
         {
-          "command"             : "apply-text-overlay",
+          "command"             : "generate-video",
           "enabled"             : true,
+          "video-name"          : "start-joke",
+          "input-image-path"    : "assets/image/start-joke.jpg",
+          "input-audio-path"    : "output/audio/start-joke.wav",
+          "output-video-path"   : "output/video/start-joke.mp4"
+        },
+        {
+          "command"             : "generate-video",
+          "enabled"             : true,
+          "video-name"          : "stop-joke",
+          "input-image-path"    : "assets/image/stop-joke.jpg",
+          "input-audio-path"    : "output/audio/stop-joke.wav",
+          "output-video-path"   : "output/video/stop-joke.mp4"
+        },
+        {
+          "command"             : "merge-videos",
+          "enabled"             : true,
+          "video-names"         : ["start-joke","stop-joke"],
+          "output-video-path"   : "output/video/tiktok-joke.mp4"
+        },
+        {
+          "command"             : "apply-text-overlay",
+          "enabled"             : false,
           "video-name"          : "multimedia-builder",
           "text"                : "Do you notice something strange here?",
           "font-size"           : 48,
@@ -32,13 +54,13 @@
         },
         {
           "command"             : "generate-subtitles",
-          "enabled"             : true,
+          "enabled"             : false,
           "input-video-path"    : "output/video/strange-situation-with-overlay.mp4",
           "output-text-path"    : "output/text/strange-situation.srt"
         },
         {
           "command"             : "apply-subtitles",
-          "enabled"             : true,
+          "enabled"             : false,
           "input-video-path"    : "output/video/strange-situation-with-overlay.mp4",
           "background-color"    : "black",
           "background-opacity"  : 0.5,

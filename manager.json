@@ -7,15 +7,15 @@
         },
         {
             "path": "pipelines/sample-image.json",
-            "enabled": true
+            "enabled": false
         },
         {
             "path": "pipelines/sample-translate.json",
-            "enabled": true
+            "enabled": false
         },
         {
             "path": "pipelines/sample-video.json",
-            "enabled": true
+            "enabled": false
         }
     ]
 }
