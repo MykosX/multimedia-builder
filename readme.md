@@ -214,7 +214,6 @@ project-root/
 ├── pipelines/
 │   ├── sample-audio.json
 │   ├── sample-image.json
-│   ├── sample-translate.json
 │   └── sample-video.json
 ├── requirements.txt
 └── README.md

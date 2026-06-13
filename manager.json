@@ -3,19 +3,15 @@
     "pipelines": [
         {
             "path": "pipelines/sample-audio.json",
-            "enabled": false
+            "enabled": true
         },
         {
             "path": "pipelines/sample-image.json",
             "enabled": true
         },
         {
-            "path": "pipelines/sample-translate.json",
-            "enabled": false
-        },
-        {
             "path": "pipelines/sample-video.json",
-            "enabled": false
+            "enabled": true
         }
     ]
 }

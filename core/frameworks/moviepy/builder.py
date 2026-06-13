@@ -316,7 +316,7 @@ class MoviePyBuilder(BaseBuilder):
         duration = stop_time - start_time
         box_size = (width, height)
         
-        text_clip = TextClip(text, font=font, fontsize=font_size, color=color, method="label")
+        text_clip = TextClip(text=text, font=font, font_size=font_size, color=color, method="label")
         text_clip = text_clip.set_position(text_position).set_duration(duration).set_start(0)
 
         if size_behavior == "full":
