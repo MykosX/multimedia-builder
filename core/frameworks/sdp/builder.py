@@ -144,7 +144,7 @@ class SDPBuilder(BaseBuilder):
 
         self.setup_text2image_pipeline(action)
         
-        (width, heigh) = self.adapt_size(width, height)
+        (width, height) = self.adapt_size(width, height)
         
         self.image = self.pipeline(
             prompt=prompt,
@@ -174,7 +174,7 @@ class SDPBuilder(BaseBuilder):
         builder = SDPBuilder().load(action, "seed-image-path", "seed-image-name")
         
         if builder.image:
-            (width, heigh) = self.adapt_size(width, height)
+            (width, height) = self.adapt_size(width, height)
             self.image = self.pipeline(
                 prompt=prompt,
                 negative_prompt=negative_prompt,

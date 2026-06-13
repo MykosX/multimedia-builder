@@ -3,11 +3,11 @@
     "pipelines": [
         {
             "path": "pipelines/sample-audio.json",
-            "enabled": true
+            "enabled": false
         },
         {
             "path": "pipelines/sample-image.json",
-            "enabled": false
+            "enabled": true
         },
         {
             "path": "pipelines/sample-translate.json",

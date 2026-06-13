@@ -149,15 +149,13 @@ Windows is used only as a UI layer.
 ### Ubuntu / WSL
 
 ```bash
-sudo apt update
-sudo apt upgrade -y
-sudo apt install -y ffmpeg espeak-ng make python3.11 python3.11-dev python3.11-venv
+sudo apt install -y ffmpeg espeak-ng make python3.11 python3.11-venv
 ```
 
 ### Fedora
 
 ```bash
-sudo dnf install -y ffmpeg espeak-ng make python3
+sudo dnf install -y ffmpeg espeak-ng make python3.11
 ```
 
 ---

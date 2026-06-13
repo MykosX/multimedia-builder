@@ -1,28 +1,29 @@
 # =====================
-# CORE ML STACK (modern stable 2026)
+# CORE ML STACK (modern stable: end of April 2026)
 # =====================
-torch==2.12.0
-transformers==5.9.0
-diffusers==0.38.0
-accelerate==1.13.0
+torch==2.11.0               # Mar 23, 2026
+torchvision==0.26.0         # Mar 23, 2026
+transformers==5.7.0         # Apr 28, 2026
+diffusers==0.37.1           # Mar 25, 2026
+accelerate==1.13.0          # Mar 04, 2026
 
 # =====================
 # AUDIO / SPEECH
 # =====================
-openai-whisper==20250625
-TTS==0.22.0
-pydub==0.25.1
-pysrt==1.1.2
+openai-whisper==20250625    # Jun 26, 2025
+TTS==0.22.0                 # Dec 12, 2023
+pydub==0.25.1               # Mar 10, 2021
+pysrt==1.1.2                # Jan 20, 2020
 
 # =====================
 # IMAGE / VIDEO
 # =====================
-pillow==11.3.0
-moviepy==2.2.1
+pillow==11.3.0              # Jul 01, 2025
+moviepy==2.2.1              # May 21, 2025
 
 # =====================
 # UTILITIES
 # =====================
-wheel==0.47.0
-colorama==0.4.6
-googletrans==4.0.2
+wheel==0.47.0               # Apr 22, 2026
+colorama==0.4.6             # Oct 25, 2022
+googletrans==4.0.2          # Jan 01, 2025
