@@ -34,7 +34,7 @@
         {
           "command"                 : "image-to-image",
           "enabled"                 : true,
-          "model-path"              : "MykosX/maya-anime-xl",
+          "model-path"              : "MykosX/heather-photo-sd",
           "image-name"              : "couple-having-fun",
           "seed-image-path"         : "assets/image/couple-having-fun.jpg",
           "prompt-path"             : "assets/text/positive-prompt.txt",
