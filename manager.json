@@ -10,10 +10,6 @@
             "enabled": true
         },
         {
-            "path": "pipelines/sample-translate.json",
-            "enabled": true
-        },
-        {
             "path": "pipelines/sample-video.json",
             "enabled": true
         }

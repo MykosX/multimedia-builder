@@ -5,8 +5,10 @@ venv/
 __pycache__/
 **/__pycache__/
 
-# Ignore input and output folders
-assets/
+# Ignore idea configuration
+.idea/
+
+# Ignore output folders
 output/
 
 # Ignore temporary files

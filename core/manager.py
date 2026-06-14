@@ -4,7 +4,6 @@ import os
 
 from core.frameworks.tts        import TTSHandler
 from core.frameworks.sdp        import SDPHandler
-from core.frameworks.gtrans     import GTransHandler
 from core.frameworks.moviepy    import MoviePyHandler
 from core.utils                 import SimpleLogger, Utils
 
@@ -14,7 +13,6 @@ class ProjectManager:
         self.handlers = {
             "tts"       : TTSHandler,
             "sdp"       : SDPHandler,
-            "gtrans"    : GTransHandler,
             "moviepy"   : MoviePyHandler
         }
 

@@ -2,39 +2,67 @@
   "subproject-title": "Work on audio activities",
   "activities": [
     {
-      "name"    : "Prepare speech files",
+      "name"    : "Check tts models and speakers",
+      "type"    : "tts",
+      "actions" : [
+        {
+          "command"                 : "show-models",
+          "enabled"                 : true
+        },
+        {
+          "command"                 : "show-speakers",
+          "enabled"                 : true
+        }
+      ]
+    },
+    {
+      "name"    : "Tell a joke with tts",
       "type"    : "tts",
       "defaults": {
-        "language"     : "en",
         "model-path"   : "tts_models/en/ljspeech/vits"
       },
       "actions" : [
         {
-          "command"                 : "generate-speech",
+          "command"                 : "text-to-speech",
           "enabled"                 : true,
-          "audio-name"              : "something-strange",
-          "text"                    : "What's strange in this image?",
-          "output-audio-path"       : "output/audio/something-strange.wav"
+          "audio-name"              : "joke-start",
+          "input-text-path"         : "assets/text/joke-start.txt",
+          "output-audio-path"       : "output/audio/joke-start.wav"
         },
         {
-          "command"                 : "generate-transcript",
-          "enabled"                 : false,
-          "audio-name"              : "something-strange",
-          "output-text-path"        : "output/text/something-strange.srt"
+          "command"                 : "text-to-speech",
+          "enabled"                 : true,
+          "audio-name"              : "joke-stop",
+          "input-text-path"         : "assets/text/joke-stop.txt",
+          "output-audio-path"       : "output/audio/joke-stop.wav"
         },
         {
           "command"                 : "create-silence",
           "enabled"                 : true,
-          "audio-name"              : "audio-silence",
+          "audio-name"              : "joke-silence",
           "duration"                : 2.0,
-          "output-audio-path"       : "output/audio/silence.wav"
+          "output-audio-path"       : "output/audio/joke-silence.wav"
         },
         {
           "command"                 : "combine-audios",
           "enabled"                 : true,
-          "input-audio-paths"       : ["output/audio/something-strange.wav"],
-          "audio-names"             : ["audio-silence"],
-          "output-audio-path"       : "output/audio/something-strange-with-silence.wav"
+          "audio-name"              : "joke-full",
+          "input-audio-paths"       : ["output/audio/joke-start.wav", "output/audio/joke-silence.wav"],
+          "audio-names"             : ["joke-stop"],
+          "output-audio-path"       : "output/audio/joke-full.wav"
+        },
+        {
+          "command"                 : "split-audio",
+          "enabled"                 : true,
+          "input-audio-path"        : "output/audio/joke-full.wav",
+          "split-times"             : [1.00, 2.50],
+          "output-audio-path"       : "output/audio/joke-split.wav"
+        },
+        {
+          "command"                 : "audio-to-text",
+          "enabled"                 : true,
+          "audio-name"              : "joke-full",
+          "output-text-path"        : "output/text/joke-transcript.srt"
         }
       ]
     }

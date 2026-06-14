@@ -2,29 +2,103 @@
   "subproject-title": "Work on image activities",
   "activities": [
     {
-      "name"    : "Prepare image files",
+      "name"    : "Image processing sample",
       "type"    : "sdp",
       "defaults": { },
       "actions" : [
         {
           "command"                 : "text-to-image",
           "enabled"                 : true,
-          "model-path"              : "Lykon/dreamshaper-8",
-          "prompt"                  : "An astronaut riding a horse on the moon",
-          "image-name"              : "strange-image",
-          "output-image-path"       : "output/image/strange-image.jpg"
+          "prompt-path"             : "assets/text/joke-start.txt",
+          "negative-prompt-path"    : "assets/text/negative-prompt.txt",
+          "width"                   :  768,
+          "height"                  :  512,
+          "guidance-scale"          : 12.0,
+          "strength"                :  0.5,
+          "inference-steps"         :   30,
+          "seed"                    :  123,
+          "output-image-path"       : "output/image/joke-start.jpg"
+        },
+        {
+          "command"                 : "text-to-image",
+          "enabled"                 : true,
+          "prompt-path"             : "assets/text/joke-stop.txt",
+          "width"                   :  768,
+          "height"                  :  512,
+          "guidance-scale"          : 12.0,
+          "strength"                :  0.5,
+          "inference-steps"         :   30,
+          "seed"                    :  123,
+          "output-image-path"       : "output/image/joke-stop.jpg"
+        },
+        {
+          "command"                 : "image-to-image",
+          "enabled"                 : true,
+          "model-path"              : "MykosX/heather-photo-sd",
+          "image-name"              : "couple-having-fun",
+          "seed-image-path"         : "assets/image/couple-having-fun.jpg",
+          "prompt-path"             : "assets/text/positive-prompt.txt",
+          "negative-prompt-path"    : "assets/text/negative-prompt.txt",
+          "width"                   : 1024,
+          "height"                  :  768,
+          "guidance-scale"          : 12.0,
+          "strength"                :  0.5,
+          "inference-steps"         :   30,
+          "seed"                    :  300,
+          "output-image-path"       : "output/image/couple-having-fun-(from-original)-300.jpg"
+        },
+        {
+          "command"                 : "color-to-image",
+          "enabled"                 : true,
+          "image-name"              : "colored-image",
+          "color"                   : "green",
+          "width"                   : 1024,
+          "height"                  :  768,
+          "alpha"                   :  128,
+          "output-image-path"       : "output/image/colored-image-(1024x768).jpg"
+        },
+        {
+          "command"                 : "resize-image",
+          "enabled"                 : true,
+          "image-name"              : "colored-image",
+          "width"                   :  768,
+          "height"                  :  512,
+          "output-image-path"       : "output/image/colored-image-(768x512).jpg"
+        },
+        {
+          "command"                 : "paste-image",
+          "enabled"                 : true,
+          "image-name"              : "couple-having-fun",
+          "image-to-insert"         : "colored-image",
+          "x"                       :  200,
+          "y"                       :  300,
+          "output-image-path"       : "output/image/couple-having-fun-mixed-with-colored-image.jpg"
         },
         {
           "command"                 : "draw-text",
-          "enabled"                 : false,
-          "image-name"              : "strange-image",
-          "text"                    : "Is this for real?",
-          "text-color"              : "white",
+          "enabled"                 : true,
+          "input-image-path"        : "output/image/joke-start.jpg",
+          "input-text-path"         : "assets/text/joke-start.txt",
+          "text-color"              : "black",
           "font-name"               : "Arial",
-          "font-size"               :  50,
-          "x"                       :  50,
-          "y"                       :  50,
-          "output-image-path"       : "output/image/strange-image-with-text.jpg"
+          "font-size"               : "40",
+          "x"                       :  200,
+          "y"                       :  300,
+          "output-image-path"       : "output/image/joke-start-with-text.jpg"
+        },
+        {
+          "command"                 : "with-speech-bubbles",
+          "enabled"                 : true,
+          "input-image-path"        : "output/image/joke-stop.jpg",
+          "text"                    : "A tripod!!!",
+          "text-color"              : "black",
+          "font-name"               : "Arial",
+          "font-size"               : "50",
+          "outline-color"           : "red",
+          "x"                       :  200,
+          "y"                       :  300,
+          "padding"                 :  20,
+          "output-image-path"       : "output/image/joke-stop-with-speech-bubble.jpg"
         }
       ]
     }

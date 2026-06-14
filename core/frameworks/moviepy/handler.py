@@ -86,7 +86,7 @@ class MoviePyHandler(BaseHandler):
             moviePyBuilder.insert_overlay(action).apply_overlays()
             moviePyBuilder.save(action)
         except Exception as e:
-            self.logger.error(f"[MoviePyHandler] Error in apply-textoverlay: {e}")
+            self.logger.error(f"[MoviePyHandler] Error in apply-text-overlay: {e}")
 
     def apply_subtitles(self, action):
         try:

@@ -1,137 +1,234 @@
 
-# Project Name: Multimedia Builder
+## Multimedia Builder (JSON-driven Multimedia Pipeline Engine)
 
-## Project Overview
-This project focuses on various multimedia processing tasks using different tools and libraries. The pipeline allows users to process different types of media (audio, image, and video) in a flexible way. It uses a configuration-driven approach where pipelines and activities are specified in JSON files.
+## Overview
 
-## Table of Contents
-1. [Project Setup](#project-setup)
-2. [Python Environment Preparation](#python-environment-preparation)
-3. [Installing Dependencies](#installing-dependencies)
-4. [Usage](#usage)
-5. [File Structure](#file-structure)
-6. [Supported Handlers and Commands](#supported-handlers-and-commands)
-7. [Contributing](#contributing)
-8. [License](#license)
+Multimedia Builder is a configuration-driven pipeline system for processing audio, image, video and text using modular handlers.
+
+The system is fully controlled by a central `manager.json` file that defines which pipelines are enabled and executed.
+
+Pipelines are executed sequentially based on configuration in `manager.json`.
+
+Each pipeline contains structured activities. Each activity groups related actions, and each action represents an executable command handled by internal framework modules.
+
+Activities group related actions under a common task context. Actions are the smallest executable unit in the system.
+
+## Execution Model
+
+The system executes in four hierarchical levels:
+
+### 1. Manager level
+The `manager.json` file controls which pipelines are executed.
+
+Example:
+
+```json
+{
+  "project-title": "Describe Techniques",
+  "pipelines": [
+    {
+      "path": "pipelines/sample-audio.json",
+      "enabled": true
+    },
+    {
+      "path": "pipelines/sample-image.json",
+      "enabled": false
+    }
+  ]
+}
+```
+Only pipelines with `"enabled": true` are loaded and executed.
+
+### 2. Pipeline level
+Each pipeline file defines a set of activities.
+
+Example:
+
+```json
+{
+  "subproject-title": "Work on audio activities",
+  "activities": [
+    {
+      "name": "Prepare speech files",
+      "type": "tts",
+      "defaults": {
+        "model-path": "tts_models/en/ljspeech/vits"
+      },
+      "actions": [
+        {
+          "command": "text-to-speech",
+          "enabled": true,
+          "text": "Hello world",
+          "output-audio-path": "output/audio/example.wav"
+        }
+      ]
+    }
+  ]
+}
+```
+
+### 3. Activity level
+Each activity contains a list of actions (commands).
+
+Activities group related actions under a common task context.
+
+### 4. Action level
+Actions represent executable commands inside an activity.
+
+Each action contains:
+- `command`: the operation to execute
+- `enabled`: whether it runs or not
+- additional parameters depending on the command type
+
+Actions map to executable commands handled by internal framework modules.
+
+Example commands:
+- text-to-speech
+- audio-to-text
+- create-silence
+- combine-audios
+- split-audio
+
+## Execution Flow
+
+1. Load `manager.json`
+2. Filter pipelines where `enabled = true`
+3. Load each pipeline file
+4. Iterate through activities
+5. For each activity, execute enabled actions sequentially (in defined order)
 
 ---
 
-## Project Setup
+## Requirements
 
-Before running the project, ensure that you have Python 3.7 or higher installed. Follow the steps below to set up the environment and install the required dependencies.
-
----
-
-## Python Environment Preparation
-
-### 1. Create a Virtual Environment
-To avoid conflicts with other projects, it's recommended to create a virtual environment.
-
-You can create a virtual environment using `venv` (comes with Python):
-
-```bash
-python -m venv venv
-```
-
-### 2. Activate the Virtual Environment
-
-#### On Windows:
-```bash
-venv\Scripts\activate
-```
-
-#### On macOS/Linux:
-```bash
-source venv/bin/activate
-```
-
-### 3. Install Required Packages
-
-After activating the virtual environment, you can install all the required dependencies using the provided `requirements.txt`.
+ - Python **3.14.x**
+ - FFmpeg
+ - eSpeak
+ - GNU Make
 
 ---
 
-## Installing Dependencies
+## Supported Platforms
 
-Once the virtual environment is activated, install the dependencies:
+### Tested:
+ - Ubuntu 26.04 LTS
+ - Fedora Linux 44
+ - WSL2 (Ubuntu 26.04 LTS)
 
-1. Make sure you are in the root directory of the project (where `requirements.txt` is located).
-2. Run the following command to install the necessary packages:
+### Recommended setup:
+ - Windows users must use WSL2 (Ubuntu 26.04 LTS)
 
-```bash
-pip install -r requirements.txt
-```
-
-This will install the following dependencies:
-- `wheel`
-- `accelerate`
-- `diffusers`
-- `googletrans`
-- `moviepy`
-...
+### Not officially supported:
+ - Native Windows (without WSL)
+ - macOS (untested)
 
 ---
 
-## Usage
+## Development Workflow
 
-### Running the Project
-After the dependencies are installed and the environment is set up, you can run the project with:
+The project is designed to run in a Linux-like environment.
+
+### Recommended directory structure (inside WSL):
 
 ```bash
-python runner.py
+~/projects/multimedia-builder
 ```
 
-This will execute the pipeline based on the configuration in `manager.json` and will log the process to the file specified.
+### Editing options:
+ - VS Code (recommended) via WSL extension
+ - PyCharm (WSL interpreter)
+ - Notepad++ via \\wsl$\Ubuntu\home\<user>\projects
+
+### Execution environment:
+All execution happens inside WSL/Linux environment.
+Windows is used only as a UI layer.
 
 ---
 
-## File Structure
+## System dependencies
+### Ubuntu / WSL
+
+```bash
+sudo apt install -y ffmpeg espeak-ng make python3.14 python3.14-venv
+```
+
+### Fedora
+
+```bash
+sudo dnf install -y ffmpeg espeak-ng make python3.14
+```
+
+---
+
+## Quick Start
+
+### 1. Clone repository
+
+```bash
+git clone https://github.com/MykosX/multimedia-builder.git
+cd multimedia-builder
+```
+
+### 2. Setup Environment
+
+```bash
+make setup
+```
+This will:
+ - create a virtual environment
+ - install Python dependencies from requirements.txt
+
+### 3. Run project
+
+```bash
+make run
+```
+
+### 4. Check dependencies
+
+```bash
+make check
+```
+
+### 5. Project info
+
+```bash
+make info
+```
+
+---
+
+## Project Structure
 
 Here is a brief overview of the project structure:
 
 ```
 project-root/
-├── runner.py                   # Runner for the project
-├── manager.json                # Project manager configuration
-├── core/                       # Main codebase
-│   ├── frameworks/             # Custom handlers (TTS, SDP, etc.)
-│   ├── utils/                  # Utilities like logging, file operations, etc.
-│   └── manager.py              # Main script to manage pipeline execution
-├── pipelines/                  # Pipeline configurations
-│   ├── sample-audio.json       # Sample audio pipeline
-│   ├── sample-image.json       # Sample image pipeline
-│   ├── sample-translate.json   # Sample translate pipeline
-│   └── sample-video.json       # Sample video pipeline
-├── requirements.txt            # List of project dependencies
-└── README.md                   # Project documentation
+├── Makefile                    # Build and runtime commands
+├── runner.py                   # Entry point for execution
+├── manager.json                # Controls active pipelines
+├── core/
+│   ├── frameworks/             # Command handlers (TTS, audio, video, etc.)
+│   ├── utils/                  # Helpers (logging, file handling)
+│   └── manager.py              # Pipeline execution engine
+├── pipelines/
+│   ├── sample-audio.json
+│   ├── sample-image.json
+│   └── sample-video.json
+├── requirements.txt
+└── README.md
+└── LICENSE
 ```
 
 ---
 
-## Supported Handlers and Commands
-
-The project supports the following handlers and commands:
-
-### Handlers:
-1. **TTS (Text-to-Speech Handler)**
-
-2. **SDP (Stable Diffusion Processor)**
-
-3. **MoviePy Handler**
-
-### Example Commands:
-- `generate-speech`: Converts text into speech.
-- `generate-image` : Generates an image based on a textual description.
-- `generate-video` : Generates video files based on specified inputs.
-
----
-
-## Contributing
-
-Contributions are welcome! If you have suggestions or improvements, please feel free to open an issue or submit a pull request.
+## Notes
+ - The system is Linux-first and WSL-compatible.
+ - Running directly on native Windows is not supported.
+ - File system performance is optimal when the project resides inside the Linux filesystem (WSL ext4).
 
 ---
 
 ## License
 
-This project is free for commercial or private use.
+See the LICENSE file for details.

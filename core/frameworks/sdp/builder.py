@@ -6,6 +6,7 @@ from PIL                    import Image, ImageColor, ImageDraw, ImageFont
 class SDPBuilder(BaseBuilder):
     def __init__(self):
         import torch
+
         super().__init__()
         self.image          = None
         self.pipeline       = None
@@ -65,24 +66,64 @@ class SDPBuilder(BaseBuilder):
 
     def setup_text2image_pipeline(self, action) -> 'SDPBuilder':
         from diffusers      import AutoPipelineForText2Image
-        """Set-up standard StableDiffusion for use with this builder."""
-        base_model_path     = action.get("model-path", "stabilityai/stable-diffusion-2-1")
 
-        self.pipeline = AutoPipelineForText2Image.from_pretrained(base_model_path, torch_dtype=self.torch_type).to(self.device)
+        model_path          = self.get_model_path(action)
 
-        self.logger.info(f"[SDPBuilder] Text to image pipeline: base={base_model_path}, device={self.device}")
+        self.pipeline = AutoPipelineForText2Image.from_pretrained(
+            model_path,
+            torch_dtype=self.torch_type
+        ).to(self.device)
+
+        self.logger.info(f"[SDPBuilder] Text2Image pipeline: base={model_path}, device={self.device}")
         
         return self
 
     def setup_image2image_pipeline(self, action) -> 'SDPBuilder':
         from diffusers      import AutoPipelineForImage2Image
-        """Set-up controlled StableDiffusion for use with this builder."""
-        base_model_path     = action.get("model-path", "stabilityai/stable-diffusion-2-1")
-        self.pipeline = AutoPipelineForImage2Image.from_pretrained(base_model_path, torch_dtype=self.torch_type).to(self.device)
 
-        self.logger.info(f"[SDPBuilder] Text + Image to image pipeline: base={base_model_path}, device={self.device}")
+        model_path          = self.get_model_path(action)
+
+        self.pipeline = AutoPipelineForImage2Image.from_pretrained(
+            model_path,
+            torch_dtype=self.torch_type
+        ).to(self.device)
+
+        self.logger.info(f"[SDPBuilder] Image2Image pipeline: base={model_path}, device={self.device}")
 
         return self
+
+    def get_model_path(self, action):
+        return action.get("model-path", "MykosX/delia-anime-sd")
+
+    def get_width(self, action):
+        return action.get("width", 512)
+
+    def get_height(self, action):
+        return action.get("height", 512)
+
+    def get_guidance_scale(self, action):
+        return action.get("guidance-scale", 7.5)
+
+    def get_strength(self, action):
+        return action.get("strength", 0.5)
+
+    def get_prompt(self, action):
+        return self.get_text(action, "prompt", "prompt-path")
+
+    def get_negative_prompt(self, action):
+        return self.get_text(action, "negative-prompt", "negative-prompt-path")
+
+    def get_generator(self, action):
+        import torch
+
+        seed = action.get("seed", None)
+
+        if seed is None:
+            seed = random.randint(0, 1 << 30)
+        return torch.manual_seed(seed)
+
+    def get_inference_steps(self, action):
+        return action.get("inference-steps", 50)
 
     def adapt_size(self, width, height):
         """Adapts width and height to match multiples of 8 as Stable Diffusion expects"""
@@ -93,36 +134,58 @@ class SDPBuilder(BaseBuilder):
 
     def text_to_image(self, action) -> 'SDPBuilder':
         """Generate the image from current text and other settings."""
-        width               = action.get("width", 512)
-        height              = action.get("height", 512)
-        guidance_scale      = action.get("guidance-scale", 7.5)
-        
-        prompt              = self.get_text(action, "prompt", "prompt-path")
-        negative_prompt     = self.get_text(action, "negative-prompt", "negative-prompt-path")
+        prompt              = self.get_prompt(action)
+        negative_prompt     = self.get_negative_prompt(action)
+        width               = self.get_width(action)
+        height              = self.get_height(action)
+        guidance_scale      = self.get_guidance_scale(action)
+        num_inference_steps = self.get_inference_steps(action)
+        generator           = self.get_generator(action)
+
         self.setup_text2image_pipeline(action)
         
-        (width, heigh) = self.adapt_size(width, height)
+        (width, height) = self.adapt_size(width, height)
         
-        self.image = self.pipeline(prompt=prompt, negative_prompt=negative_prompt, width=width, height=height, guidance_scale=guidance_scale).images[0]
+        self.image = self.pipeline(
+            prompt=prompt,
+            negative_prompt=negative_prompt,
+            guidance_scale=guidance_scale,
+            num_inference_steps=num_inference_steps,
+            generator=generator,
+            width=width,
+            height=height
+        ).images[0]
             
         return self
 
     def image_to_image(self, action) -> 'SDPBuilder':
         """Generate the image from current text and other settings."""
-        width               = action.get("width", 512)
-        height              = action.get("height", 512)
-        guidance_scale      = action.get("guidance-scale", 7.5)
-        strength            = action.get("strength", 0.5)
-        
-        prompt              = self.get_text(action, "prompt", "prompt-path")
-        negative_prompt     = self.get_text(action, "negative-prompt", "negative-prompt-path")
+        prompt              = self.get_prompt(action)
+        negative_prompt     = self.get_negative_prompt(action)
+        width               = self.get_width(action)
+        height              = self.get_height(action)
+        guidance_scale      = self.get_guidance_scale(action)
+        strength            = self.get_strength(action)
+        num_inference_steps = self.get_inference_steps(action)
+        generator           = self.get_generator(action)
+
         self.setup_image2image_pipeline(action)
         
         builder = SDPBuilder().load(action, "seed-image-path", "seed-image-name")
         
         if builder.image:
-            (width, heigh) = self.adapt_size(width, height)
-            self.image = self.pipeline(prompt=prompt, negative_prompt=negative_prompt, image=builder.image, width=width, height=height, strength=strength, guidance_scale=guidance_scale).images[0]
+            (width, height) = self.adapt_size(width, height)
+            self.image = self.pipeline(
+                prompt=prompt,
+                negative_prompt=negative_prompt,
+                image=builder.image,
+                strength=strength,
+                guidance_scale=guidance_scale,
+                num_inference_steps=num_inference_steps,
+                generator=generator,
+                width=width,
+                height=height
+            ).images[0]
         else:
             self.logger.error("[SDPBuilder] Missing source image")
             
@@ -131,8 +194,8 @@ class SDPBuilder(BaseBuilder):
     def color_to_image(self, action) -> 'SDPBuilder':
         """Generate the image from color, width, height and alpha."""
         color               = action.get("color", "black")
-        width               = action.get("width", 512)
-        height              = action.get("height", 512)
+        width               = self.get_width(action)
+        height              = self.get_height(action)
         alpha               = action.get("alpha", 255)
 
         rgb_color = ImageColor.getrgb(color)
@@ -144,8 +207,8 @@ class SDPBuilder(BaseBuilder):
 
     def resize(self, action) -> 'SDPBuilder':
         """Resize the image with new width and height."""
-        width               = action.get("width", 512)
-        height              = action.get("height", 512)
+        width               = self.get_width(action)
+        height              = self.get_height(action)
 
         self.image = self.image.resize((width, height))
             
