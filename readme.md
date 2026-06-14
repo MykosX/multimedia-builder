@@ -101,7 +101,7 @@ Example commands:
 
 ## Requirements
 
- - Python **3.11.x**
+ - Python **3.14.x**
  - FFmpeg
  - eSpeak
  - GNU Make
@@ -111,12 +111,12 @@ Example commands:
 ## Supported Platforms
 
 ### Tested:
- - Ubuntu 22.04 LTS
- - Fedora
- - WSL2 (Ubuntu 22.04 LTS)
+ - Ubuntu 26.04 LTS
+ - Fedora Linux 44
+ - WSL2 (Ubuntu 26.04 LTS)
 
 ### Recommended setup:
- - Windows users must use WSL2 (Ubuntu 22.04 LTS)
+ - Windows users must use WSL2 (Ubuntu 26.04 LTS)
 
 ### Not officially supported:
  - Native Windows (without WSL)
@@ -149,13 +149,13 @@ Windows is used only as a UI layer.
 ### Ubuntu / WSL
 
 ```bash
-sudo apt install -y ffmpeg espeak-ng make python3.11 python3.11-venv
+sudo apt install -y ffmpeg espeak-ng make python3.14 python3.14-venv
 ```
 
 ### Fedora
 
 ```bash
-sudo dnf install -y ffmpeg espeak-ng make python3.11
+sudo dnf install -y ffmpeg espeak-ng make python3.14
 ```
 
 ---

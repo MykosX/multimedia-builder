@@ -29,7 +29,7 @@
           "command"             : "merge-videos",
           "enabled"             : true,
           "video-names"         : ["joke-start","joke-stop"],
-          "output-video-path"   : "output/video/tiktok-joke.mp4"
+          "output-video-path"   : "output/video/moviepy-joke.mp4"
         },
         {
           "command"             : "apply-text-overlay",

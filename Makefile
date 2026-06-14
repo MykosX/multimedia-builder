@@ -1,6 +1,6 @@
 VENV=venv
 
-PYTHON ?= python3.11
+PYTHON ?= python3.14
 VENV_BIN=$(VENV)/bin
 
 .PHONY: help info check setup create run clean
