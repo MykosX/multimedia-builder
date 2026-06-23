@@ -1,0 +1,22 @@
+{
+    "workspace-title": "Multimedia builder examples",
+    "pipelines":
+    [
+        {
+            "path": "config/pipelines/01-question-answer-joke.json",
+            "enabled": true
+        },
+        {
+            "path": "config/pipelines/sample-audio.json",
+            "enabled": false
+        },
+        {
+            "path": "config/pipelines/sample-image.json",
+            "enabled": false
+        },
+        {
+            "path": "config/pipelines/sample-video.json",
+            "enabled": false
+        }
+    ]
+}

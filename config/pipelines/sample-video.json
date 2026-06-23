@@ -1,0 +1,50 @@
+{
+    "subproject-title": "Work on video activities",
+    "defaults": {},
+    "activities":
+    [
+        {
+            "name"    : "Prepare video files",
+            "model"    : "video",
+            "actions" :
+            [
+                {
+                    "command"                   : "text-to-video",
+                    "enabled"                   : true,
+                    "input-text-path"           : "assets/text/joke-start.txt",
+                    "output-video-reference"    : "joke-start-title"
+                },
+                {
+                    "command"                   : "set-video-opacity",
+                    "enabled"                   : true,
+                    "input-video-reference"     : "joke-start-title",
+                    "opacity"                   : 0.5,
+                    "output-video-reference"    : "joke-start-title"
+                },
+                {
+                    "command"                   : "image-to-video",
+                    "enabled"                   : true,
+                    "input-image-path"          : "output/image/joke-start.jpg",
+                    "output-video-reference"    : "joke-start"
+                },
+                {
+                    "command"                   : "with-audio",
+                    "enabled"                   : true,
+                    "input-video-reference"     : "joke-start",
+                    "input-audio-path"          : "output/audio/joke-start.wav",
+                    "output-video-reference"    : "joke-start"
+                },
+                {
+                    "command"                   : "compose-videos",
+                    "enabled"                   : true,
+                    "input-video-references"    : 
+                    [
+                        "joke-start",
+                        "joke-start-title"
+                    ],
+                    "output-video-path"         : "output/video/joke-start.mp4"
+                }
+            ]
+        }
+    ]
+}

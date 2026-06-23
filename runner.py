@@ -1,6 +1,15 @@
-from core.manager import ProjectManager
+
+# -----------------------------------------------------------------------------
+#runner.py
+# -----------------------------------------------------------------------------
+
+from src.core               import Console, Workspace
+
+def main():
+    Console.initialize()
+    Workspace.open().run()
 
 if __name__ == "__main__":
-    manager = ProjectManager()
-    manager.load_manager_json('manager.json')
-    manager.run()
+    main()
+
+# -----------------------------------------------------------------------------

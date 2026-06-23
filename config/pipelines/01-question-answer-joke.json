@@ -1,0 +1,119 @@
+{
+    "project-title"     : "Creating a movie joke with coqui, diffusers and moviepy",
+    "activities"        :
+    [{
+        "name"          : "Creating audio tracks with Coqui",
+        "enabled"       : true,
+        "model"         : "audio",
+        "actions"       :
+        [{
+            "command"                   : "generate-speech-from-text",
+            "enabled"                   : true,
+            "adapter"                   : "coqui",
+            "parameters"                :
+            {
+                "model-path"            : "tts_models/en/ljspeech/vits",
+                "input-text-path"       : "assets/text/joke-start.txt",
+                "output-audio-reference": "joke-start.wav",
+                "output-audio-path"     : "output/audio/joke-start.wav"
+            }
+        },
+        {
+            "command"                   : "generate-speech-from-text",
+            "enabled"                   : true,
+            "adapter"                   : "coqui",
+            "parameters"                :
+            {
+                "model-path"            : "tts_models/en/ljspeech/vits",
+                "input-text-path"       : "assets/text/joke-stop.txt",
+                "output-audio-reference": "joke-stop.wav",
+                "output-audio-path"     : "output/audio/joke-stop.wav"
+            }
+        }]
+    },
+    {
+        "name"          : "Creating base images with diffusers",
+        "enabled"       : true,
+        "model"         : "image",
+        "defaults"      :
+        {
+            "model-path": "MykosX/delia-anime-sd"
+        },
+        "actions"       :
+        [{
+            "command"                   : "generate-image-from-text",
+            "enabled"                   : true,
+            "adapter"                   : "diffusers",
+            "parameters"                :
+            {
+                "prompt-path"           : "assets/text/joke-start.txt",
+                "negative-prompt-path"  : "assets/text/negative-prompt.txt",
+                "width"                 :  768,
+                "height"                :  512,
+                "guidance-scale"        : 12.0,
+                "strength"              :  0.5,
+                "inference-steps"       :   30,
+                "seed"                  :  123,
+                "output-image-path"     : "output/image/joke-start.jpg"
+            }
+        },
+        {
+            "command"                   : "generate-image-from-text",
+            "enabled"                   : true,
+            "adapter"                   : "diffusers",
+            "parameters"                :
+            {
+                "prompt-path"           : "assets/text/joke-stop.txt",
+                "width"                 :  768,
+                "height"                :  512,
+                "guidance-scale"        : 12.0,
+                "strength"              :  0.5,
+                "inference-steps"       :   30,
+                "seed"                  :  123,
+                "output-image-path"     : "output/image/joke-stop.jpg"
+            }
+        }]
+    },
+    {
+        "name"          : "Creating videos from image and audio with moviepy",
+        "model"         : "video",
+        "enabled"       : true,
+        "actions"       :
+        [{
+            "command"                   : "image-to-video",
+            "enabled"                   : true,
+            "input-image-path"          : "output/image/joke-start.jpg",
+            "output-video-reference"    : "joke-start.mp4"
+        },
+        {
+            "command"                   : "with-audio",
+            "enabled"                   : true,
+            "input-video-reference"     : "joke-start.mp4",
+            "input-audio-reference"     : "joke-start.wav",
+            "output-video-reference"    : "joke-start.mp4"
+        },
+        {
+            "command"                   : "image-to-video",
+            "enabled"                   : true,
+            "input-image-path"          : "output/image/joke-stop.jpg",
+            "output-video-reference"    : "joke-stop.mp4"
+        },
+        {
+            "command"                   : "with-audio",
+            "enabled"                   : true,
+            "input-video-reference"     : "joke-stop.mp4",
+            "input-audio-reference"     : "joke-stop.wav",
+            "output-video-reference"    : "joke-stop.mp4"
+        },
+        {
+            "command"                   : "merge-videos",
+            "enabled"                   : true,
+            "input-video-references"    :
+            [
+                "joke-start.mp4",
+                "joke-stop.mp4"
+            ],
+            "output-video-path"         : "output/video/joke-full.mp4"
+        }]
+    }]
+}

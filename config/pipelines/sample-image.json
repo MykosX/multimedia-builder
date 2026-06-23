@@ -1,0 +1,88 @@
+{
+    "project-title" : "Work on image activities",
+    "activities":
+    [{
+        "name"      : "Image processing sample",
+        "model"     : "image",
+        "defaults"  : {},
+        "actions"   :
+        [{
+            "command"                   : "generate-image-from-text",
+            "enabled"                   : true,
+            "diffusers"                 :
+            {
+                "prompt-path"           : "assets/text/joke-start.txt",
+                "negative-prompt-path"  : "assets/text/negative-prompt.txt",
+                "width"                 :  768,
+                "height"                :  512,
+                "guidance-scale"        : 12.0,
+                "strength"              :  0.5,
+                "inference-steps"       :   30,
+                "seed"                  :  123,
+                "output-image-path"     : "output/image/joke-start.jpg"
+            }
+        },
+        {
+            "command"                   : "generate-image-from-text",
+            "enabled"                   : true,
+            "diffusers"                 :
+            {
+                "prompt-path"           : "assets/text/joke-stop.txt",
+                "width"                 :  768,
+                "height"                :  512,
+                "guidance-scale"        : 12.0,
+                "strength"              :  0.5,
+                "inference-steps"       :   30,
+                "seed"                  :  123,
+                "output-image-path"     : "output/image/joke-stop.jpg"
+            }
+        },
+        {
+            "command"                   : "generate-image-from-image",
+            "enabled"                   : true,
+            "diffusers"                 :
+            {
+                "model-path"            : "MykosX/heather-photo-sd",
+                "prompt-path"           : "assets/text/positive-prompt.txt",
+                "negative-prompt-path"  : "assets/text/negative-prompt.txt",
+                "base-image-path"       : "assets/image/couple-having-fun.jpg",
+                "width"                 : 1024,
+                "height"                :  768,
+                "guidance-scale"        : 12.0,
+                "strength"              :  0.5,
+                "inference-steps"       :   30,
+                "seed"                  :  300,
+                "output-image-reference": "couple-having-fun",
+                "output-image-path"     : "output/image/couple-having-fun-(from-original)-300.jpg"
+            }
+        },
+        {
+            "command"                   : "color-to-image",
+            "enabled"                   : true,
+            "color"                     : "green",
+            "width"                     : 1024,
+            "height"                    :  768,
+            "alpha"                     :  128,
+            "output-image-reference"    : "colored-image",
+            "output-image-path"         : "output/image/colored-image-(1024x768).png"
+        },
+        {
+            "command"                   : "resize-image",
+            "enabled"                   : true,
+            "input-image-reference"     : "colored-image",
+            "width"                     :  768,
+            "height"                    :  512,
+            "output-image-reference"    : "colored-image",
+            "output-image-path"         : "output/image/colored-image-(768x512).png"
+        },
+        {
+            "command"                   : "insert-image",
+            "enabled"                   : true,
+            "input-image-reference"     : "couple-having-fun",
+            "insert-image-reference"    : "colored-image",
+            "x"                         :  200,
+            "y"                         :  300,
+            "output-image-path"         : "output/image/couple-having-fun-mixed-with-colored-image.png"
+        }]
+    }]
+}
