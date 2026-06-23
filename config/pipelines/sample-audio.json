@@ -1,0 +1,68 @@
+{
+  "subproject-title": "Work on audio activities",
+  "activities": [
+    {
+      "name"    : "Creating jokes with Coqui (TTS)",
+      "type"    : "audio",
+      "actions" : [
+            {
+              "command"                 : "text-to-speech",
+              "enabled"                 : true,
+              "model-path"              : "tts_models/en/ljspeech/vits",
+              "input-text-path"         : "assets/text/joke-start.txt",
+              "output-audio-reference"  : "joke-start",
+              "output-audio-path"       : "output/audio/joke-start.wav"
+            },
+            {
+              "command"                 : "text-to-speech",
+              "enabled"                 : true,
+              "model-path"              : "tts_models/en/ljspeech/vits",
+              "input-text-path"         : "assets/text/joke-stop.txt",
+              "output-audio-reference"  : "joke-stop",
+              "output-audio-path"       : "output/audio/joke-stop.wav"
+            }
+        ]
+    },
+    {
+      "name"    : "Showing off utilities of pydub",
+      "type"    : "audio",
+      "actions" : [
+            {
+              "command"                 : "create-silence",
+              "enabled"                 : true,
+              "duration"                : 2.0,
+              "output-audio-reference"  : "joke-silence",
+              "output-audio-path"       : "output/audio/joke-silence.wav"
+            },
+            {
+              "command"                 : "merge-audios",
+              "enabled"                 : true,
+              "input-audio-paths"       : ["output/audio/joke-start.wav", "output/audio/joke-silence.wav"],
+              "input-audio-references"  : ["joke-stop"],
+              "output-audio-reference"  : "joke-full",
+              "output-audio-path"       : "output/audio/joke-full.wav"
+            },
+            {
+              "command"                 : "split-audio",
+              "enabled"                 : true,
+              "input-audio-path"        : "output/audio/joke-full.wav",
+              "split-times"             : [1.00, 2.50],
+              "output-audio-path"       : "output/audio/joke-split.wav"
+            }
+        ]
+    },
+    {
+      "name"    : "Obtaining transcript with Whisper (STT)",
+      "type"    : "audio",
+      "actions" : [
+        {
+          "command"                 : "audio-to-text",
+          "enabled"                 : true,
+          "input-audio-reference"   : "joke-full",
+          "whisper-model"           : "base",
+          "output-text-path"        : "output/text/joke-transcript.srt"
+        }
+      ]
+    }
+  ]
+}

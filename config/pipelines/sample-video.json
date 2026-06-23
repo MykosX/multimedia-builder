@@ -1,0 +1,67 @@
+{
+  "subproject-title": "Work on video activities",
+  "activities": [
+    {
+      "name"    : "Prepare video files",
+      "type"    : "video",
+      "defaults": {
+        "codec"   : "libx264",
+        "fps"     : 50
+      },
+      "actions" : [
+        {
+          "command"             : "generate-video",
+          "enabled"             : true,
+          "video-name"          : "joke-start",
+          "input-image-path"    : "output/image/joke-start.jpg",
+          "input-audio-path"    : "output/audio/joke-start.wav",
+          "output-video-path"   : "output/video/joke-start.mp4"
+        },
+        {
+          "command"             : "generate-video",
+          "enabled"             : true,
+          "video-name"          : "joke-stop",
+          "input-image-path"    : "output/image/joke-stop.jpg",
+          "input-audio-path"    : "output/audio/joke-stop.wav",
+          "output-video-path"   : "output/video/joke-stop.mp4"
+        },
+        {
+          "command"             : "merge-videos",
+          "enabled"             : true,
+          "video-names"         : ["joke-start","joke-stop"],
+          "output-video-path"   : "output/video/moviepy-joke.mp4"
+        },
+        {
+          "command"             : "apply-text-overlay",
+          "enabled"             : false,
+          "video-name"          : "joke-start",
+          "input-text-path"     : "assets/text/joke-start.txt",
+          "font"                : "Arial",
+          "font-size"           : 48,
+          "color"               : "white",
+          "background-color"    : "black",
+          "background-opacity"  : 0.5,
+          "x"                   : 100,
+          "y"                   : 100,
+          "output-video-path"   : "output/video/joke-start-with-overlay.mp4"
+        },
+        {
+          "command"             : "generate-subtitles",
+          "enabled"             : false,
+          "input-video-path"    : "output/video/joke-start-with-overlay.mp4",
+          "output-text-path"    : "output/text/joke-start-subtitle.srt"
+        },
+        {
+          "command"             : "apply-subtitles",
+          "enabled"             : false,
+          "input-video-path"    : "output/video/joke-start-with-overlay.mp4",
+          "background-color"    : "black",
+          "background-opacity"  : 0.5,
+          "text-position"       : ["center", "bottom"],
+          "input-text-path"     : "output/text/joke-start-subtitle.srt",
+          "output-video-path"   : "output/video/joke-start-with-subtitle.mp4"
+        }
+      ]
+    }
+  ]
+}
