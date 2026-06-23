@@ -2,6 +2,9 @@
 import os
 
 class Utils:
+    def __init__(self):
+        pass
+
     @staticmethod
     def ensure_dir(path):
         """Ensure a directory exists."""

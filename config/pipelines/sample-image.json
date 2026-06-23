@@ -3,7 +3,7 @@
   "activities": [
     {
       "name"    : "Image processing sample",
-      "type"    : "sdp",
+      "type"    : "image",
       "defaults": { },
       "actions" : [
         {

@@ -2,11 +2,11 @@
 import numpy as np
 import whisper
 
-from core.frameworks.base   import BaseBuilder
-from core.utils             import Utils
-from pydub                  import AudioSegment
-from TTS.api                import TTS
-from TTS.utils.manage       import ModelManager
+from src.models.base    import BaseBuilder
+from src.utils          import Utils
+from pydub              import AudioSegment
+from TTS.api            import TTS
+from TTS.utils.manage   import ModelManager
 
 class TTSBuilder(BaseBuilder):
     def __init__(self):
@@ -277,4 +277,3 @@ class TTSBuilder(BaseBuilder):
         self.audio = self.load_audio(output_audio_path)
             
         return self
-

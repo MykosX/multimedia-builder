@@ -2,10 +2,10 @@
 import pysrt
 import whisper
 
-from core.frameworks.base   import BaseBuilder
-from core.utils             import Utils
-from moviepy                import AudioFileClip, concatenate_videoclips, ColorClip, CompositeVideoClip, ImageClip, VideoFileClip, TextClip
-from PIL                    import ImageColor
+from src.models.base    import BaseBuilder
+from src.utils          import Utils
+from moviepy            import AudioFileClip, concatenate_videoclips, ColorClip, CompositeVideoClip, ImageClip, VideoFileClip, TextClip
+from PIL                import ImageColor
 
 class MoviePyBuilder(BaseBuilder):
     def __init__(self):

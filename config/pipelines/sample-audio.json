@@ -3,7 +3,7 @@
   "activities": [
     {
       "name"    : "Check tts models and speakers",
-      "type"    : "tts",
+      "type"    : "audio",
       "actions" : [
         {
           "command"                 : "show-models",
@@ -17,7 +17,7 @@
     },
     {
       "name"    : "Tell a joke with tts",
-      "type"    : "tts",
+      "type"    : "audio",
       "defaults": {
         "model-path"   : "tts_models/en/ljspeech/vits"
       },

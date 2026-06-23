@@ -1,8 +1,8 @@
 
 import os
 
-from datetime import datetime
-from colorama import Fore, Style, init as colorama_init
+from datetime           import datetime
+from colorama           import Fore, Style, init as colorama_init
 
 class SimpleLogger:
     _instance = None
@@ -41,24 +41,23 @@ class SimpleLogger:
         color = color_map.get(level, Fore.WHITE)
         print(f"{color}[{level}] {message}{Style.RESET_ALL}")
 
-    def _log(self, message, level):
+    def _log(self, level, message):
         timestamped = f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - [{level}] {message}"
         self._log_to_console(message, level)
         self._log_to_file(timestamped)
 
     def info(self, message):
-        self._log(message, "INFO")
+        self._log("INFO", message)
 
     def warning(self, message):
-        self._log(message, "WARNING")
+        self._log("WARNING", message)
 
     def error(self, message):
-        self._log(message, "ERROR")
+        self._log("ERROR", message)
 
     def debug(self, message):
-        self._log(message, "DEBUG")
+        self._log("DEBUG", message)
 
     @classmethod
     def get_logger(cls):
         return cls()
-

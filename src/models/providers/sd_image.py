@@ -1,7 +1,7 @@
 
-from core.frameworks.base   import BaseBuilder
-from core.utils             import Utils
-from PIL                    import Image, ImageColor, ImageDraw, ImageFont
+from src.models.base    import BaseBuilder
+from src.utils          import Utils
+from PIL                import Image, ImageColor, ImageDraw, ImageFont
 
 class SDPBuilder(BaseBuilder):
     def __init__(self):
