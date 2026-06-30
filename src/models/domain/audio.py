@@ -28,7 +28,19 @@ class AudioModel(BaseModel):
     # splits provided audio in more audios
     @command("split-audio")
     def split_audio(self, action):
-        Logger.log_info("AudioModel", "Dummy implementation for 'split-audio' command")
+        input_audio_path            = action.get("input-audio-path")
+        input_audio_reference       = action.get("input-audio-reference")
+        split_times                 = action.get("split-times", [])
+        output_audio_path           = action.get("output-audio-path")
+        
+        try:
+            Logger.log_info("AudioModel", "Spliting audio in more audios")
+            
+            audio_helper = AudioHelper().resolve_audio_input(input_audio_path, input_audio_reference)
+            audio_helper.split_audio(split_times, output_audio_path)
+
+        except Exception as e:
+            Logger.log_error("AudioModel", f"Error in split-audio: {e}")
 
     # generates speech from provided text
     @command("text-to-speech")
@@ -63,3 +75,8 @@ class AudioModel(BaseModel):
             
         except Exception as e:
             Logger.log_error("AudioModel", f"Error in text-to-speech: {e}")
+
+    # runs custom commands from specific tts's
+    @command("run-custom")
+    def run_custom(self, action):
+        Logger.log_info("AudioModel", "Dummy implementation for 'run-custom' command")

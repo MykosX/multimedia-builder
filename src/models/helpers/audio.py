@@ -43,19 +43,16 @@ class AudioHelper(BaseHelper):
         return self
 
     # resolves the input as audio: a) read from a file or c) read from cache
-    def resolve_audio_input(self, action, audio_path_key="input-audio-path", audio_reference="input-audio-reference") -> AudioHelper:
-        input_audio_path            = action.get(audio_path_key)
-        input_audio_reference       = action.get(audio_reference)
-        
+    def resolve_audio_input(self, input_audio_path, input_audio_reference) -> AudioHelper:
         if input_audio_path:
-            audio_data = AudioHelper().load_audio(input_audio_path)
+            audio_helper = AudioHelper().load_audio(input_audio_path)
         elif input_audio_reference:
-            audio_data = AudioHelper.load_from_cache("audio", input_audio_reference)
+            audio_helper = AudioHelper.load_from_cache("audio", input_audio_reference)
         else:
-            Logger.log_error("AudioHelper", f"No load source specified (file:'{audio_path_key}' or reference:'{audio_reference}').")
-            audio_data = AudioHelper()
+            Logger.log_error("AudioHelper", f"No load source specified (file:'{input_audio_path}' or reference:'{input_audio_reference}').")
+            audio_helper = AudioHelper()
 
-        return audio_data
+        return audio_helper
 
     # resolves the output as audio: a) writes to a file or b) saves to cache
     def resolve_audio_output(self, output_audio_path, output_audio_reference) -> AudioHelper:
@@ -71,7 +68,35 @@ class AudioHelper(BaseHelper):
         
         return self
 
-    # generates speech with Coqui TTS
+    def split_audio(self, split_times, output_audio_path) -> AudioHelper:
+        audio_data = self.audio_segment
+        audio_length_sec = len(audio_data) / 1000.0  # duration in seconds
+
+        # Filter valid split times
+        valid_split_times = []
+        for t in sorted(split_times):
+            if 0 < t < audio_length_sec:
+                valid_split_times.append(t)
+            else:
+                Logger.log_warning("AudioHelper", f"Ignoring out-of-range split time: {t}")
+
+        valid_split_times.append(audio_length_sec)  # ensure final split
+
+        # Split and save chunks
+        Logger.log_info("AudioHelper", f"Splitting audio at: {valid_split_times}")
+        start_ms = 0
+
+        for idx, split_time in enumerate(valid_split_times):
+            end_ms = int(split_time * 1000)
+            chunk = audio_data[start_ms:end_ms]
+
+            part_path = f"{output_audio_path}_part{idx+1}.wav"
+            AudioHelper(chunk).save_audio(part_path)
+
+            start_ms = end_ms
+        
+        return self
+
     def text_to_speech(self, text, tts_settings, output_audio_path) -> AudioHelper:
         model_path = tts_settings["model_path"] or "tts_models/en/ljspeech/vits"
         

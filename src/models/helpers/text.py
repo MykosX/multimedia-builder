@@ -53,12 +53,9 @@ class TextHelper(BaseHelper):
         return text_helper
 
     # resolves the output as text: a) writes to a file or b) saves to cache
-    def resolve_text_output(self, action, text_path_key="output-text-path", text_reference="output-text-reference") -> TextHelper:
-        output_text_path            = action.get(text_path_key)
-        output_text_reference       = action.get(text_reference)
-
+    def resolve_text_output(self, output_text_path, output_text_reference) -> TextHelper:
         if not (output_text_path or output_text_reference):
-            Logger.log_error("TextHelper", f"No save target specified (file:'{text_path_key}' or reference:'{text_reference}').")
+            Logger.log_error("TextHelper", f"No save target specified (file:'{output_text_path}' or reference:'{output_text_reference}').")
 
         if output_text_path:
             self.save_text(output_text_path)
