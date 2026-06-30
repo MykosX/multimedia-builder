@@ -16,7 +16,7 @@ class AudioHelper(BaseHelper):
         return self.audio_segment
 
     # loads an audio file from specified source
-    def load_audio(self, source_path) -> AudioHelper:
+    def load(self, source_path) -> AudioHelper:
         try:
             Logger.log_info("AudioHelper", f"Loading audio from: {source_path}")
 
@@ -29,7 +29,7 @@ class AudioHelper(BaseHelper):
         return self
 
     # saves provided audio file to specified destination
-    def save_audio(self, destination_path, format="wav") -> AudioHelper:
+    def save(self, destination_path, format="wav") -> AudioHelper:
         try:
             Logger.log_info("AudioHelper", f"Saving audio to: {destination_path}")
 
@@ -43,9 +43,9 @@ class AudioHelper(BaseHelper):
         return self
 
     # resolves the input as audio: a) read from a file or c) read from cache
-    def resolve_audio_input(self, input_audio_path, input_audio_reference) -> AudioHelper:
+    def resolve_input(self, input_audio_path, input_audio_reference) -> AudioHelper:
         if input_audio_path:
-            audio_helper = AudioHelper().load_audio(input_audio_path)
+            audio_helper = AudioHelper().load(input_audio_path)
         elif input_audio_reference:
             audio_helper = AudioHelper.load_from_cache("audio", input_audio_reference)
         else:
@@ -55,47 +55,57 @@ class AudioHelper(BaseHelper):
         return audio_helper
 
     # resolves the output as audio: a) writes to a file or b) saves to cache
-    def resolve_audio_output(self, output_audio_path, output_audio_reference) -> AudioHelper:
+    def resolve_output(self, output_audio_path, output_audio_reference) -> AudioHelper:
         if not (output_audio_path or output_audio_reference):
             Logger.log_error("AudioHelper", f"No save target specified (file:'{output_audio_path}' or reference:'{output_audio_reference}').")
             return
 
         if output_audio_path:
-            self.save_audio(output_audio_path)
+            self.save(output_audio_path)
 
         if output_audio_reference:
             AudioHelper.save_to_cache("audio", output_audio_reference, self)
         
         return self
 
-    def split_audio(self, split_times, output_audio_path) -> AudioHelper:
-        audio_data = self.audio_segment
-        audio_length_sec = len(audio_data) / 1000.0  # duration in seconds
+    def merge(self, audios: list["AudioHelper"]) -> AudioHelper:
+        merged = AudioSegment.silent(0)
+
+        for audio in audios:
+            merged += audio.audio_segment
+
+        return AudioHelper(merged)
+
+    def with_silence(self, duration: float) -> AudioHelper:
+        self.audio_segment += AudioSegment.silent(duration=duration * 1000)
+        
+        return self
+
+    def split(self, split_times) -> list[AudioHelper]:
+        audio_length_sec = len(self.audio_segment) / 1000.0
 
         # Filter valid split times
         valid_split_times = []
-        for t in sorted(split_times):
-            if 0 < t < audio_length_sec:
-                valid_split_times.append(t)
+        for split_time in sorted(split_times):
+            if 0 < split_time < audio_length_sec:
+                valid_split_times.append(split_time)
             else:
-                Logger.log_warning("AudioHelper", f"Ignoring out-of-range split time: {t}")
+                Logger.log_warning("AudioHelper", f"Ignoring out-of-range split time: {split_time}")
 
-        valid_split_times.append(audio_length_sec)  # ensure final split
+        # Always include the end of the audio.
+        valid_split_times.append(audio_length_sec)
 
-        # Split and save chunks
         Logger.log_info("AudioHelper", f"Splitting audio at: {valid_split_times}")
+
+        chunks: list[AudioHelper] = []
         start_ms = 0
-
-        for idx, split_time in enumerate(valid_split_times):
+        
+        for split_time in valid_split_times:
             end_ms = int(split_time * 1000)
-            chunk = audio_data[start_ms:end_ms]
-
-            part_path = f"{output_audio_path}_part{idx+1}.wav"
-            AudioHelper(chunk).save_audio(part_path)
-
+            chunks.append(AudioHelper(self.audio_segment[start_ms:end_ms]))
             start_ms = end_ms
         
-        return self
+        return chunks
 
     def text_to_speech(self, text, tts_settings, output_audio_path) -> AudioHelper:
         model_path = tts_settings["model_path"] or "tts_models/en/ljspeech/vits"
@@ -124,5 +134,5 @@ class AudioHelper(BaseHelper):
         
         coqui_tts.tts_to_file(**kwargs)
         
-        return AudioHelper().load_audio(output_audio_path)
+        return AudioHelper().load(output_audio_path)
     

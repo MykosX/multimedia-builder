@@ -28,7 +28,7 @@
       "type"    : "audio",
       "actions" : [
             {
-              "command"                 : "create-silence",
+              "command"                 : "with-silence",
               "enabled"                 : true,
               "duration"                : 2.0,
               "output-audio-reference"  : "joke-silence",
