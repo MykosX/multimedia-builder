@@ -1,6 +1,6 @@
 
 # src/models/core/__init__.py
 
-from .base              import BaseModel
+from .base              import BaseHelper, BaseModel
 
-__all__ = ["BaseModel"]
+__all__ = ["BaseHelper", "BaseModel"]

@@ -6,4 +6,4 @@ from .image             import ImageModel
 from .text              import TextModel
 from .video             import VideoModel
 
-__all__ = "AudioModel", "ImageModel", "TextModel", "VideoModel"]
+__all__ = ["AudioModel", "ImageModel", "TextModel", "VideoModel"]

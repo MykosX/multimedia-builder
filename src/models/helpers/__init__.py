@@ -1,5 +1,5 @@
 
-# src/models/providers/__init__.py
+# src/models/helpers/__init__.py
 
 from .audio             import AudioHelper
 from .image             import ImageHelper

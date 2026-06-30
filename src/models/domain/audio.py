@@ -3,42 +3,12 @@
 
 from src.models.core            import BaseModel
 from src.models.core.decorators import command
-from src.models.providers       import AudioHelper
+from src.models.helpers         import AudioHelper, TextHelper
 from src.utils                  import Logger
 
 class AudioModel(BaseModel):
     def __init__(self):
         super().__init__()
-    
-    # resolves the input as audio: a) read from a file or c) read from cache
-    def resolve_audio_input(self, action, audio_path_key="input-audio-path", audio_reference="input-audio-reference") -> AudioHelper:
-        input_audio_path            = action.get(audio_path_key)
-        input_audio_reference       = action.get(audio_reference)
-        
-        if input_audio_path:
-            audio_data = AudioHelper().load_audio(input_audio_path)
-        elif input_audio_reference:
-            audio_data = BaseModel.load_from_cache("audio", input_audio_reference)
-        else:
-            Logger.log_error("PyDubModel", f"No load source specified (file:'{audio_path_key}' or reference:'{audio_reference}').")
-            audio_data = AudioHelper()
-
-        return audio_data
-
-    # resolves the output as audio: a) writes to a file or b) saves to cache
-    def resolve_audio_output(self, action, audio_data: AudioHelper, audio_path_key="output-audio-path", audio_reference="output-audio-reference"):
-        output_audio_path           = action.get(audio_path_key)
-        output_audio_reference      = action.get(audio_reference)
-        
-        if not (output_audio_path or output_audio_reference):
-            Logger.log_error("PyDubModel", f"No save target specified (file:'{audio_path_key}' or reference:'{audio_reference}').")
-            return
-
-        if output_audio_path:
-            audio_data.save_audio(output_audio_path)
-
-        if output_audio_reference:
-            BaseModel.save_to_cache("audio", output_audio_reference, audio_data)
     
     # generates a transcript from provided audio
     @command("audio-to-text")
@@ -63,4 +33,33 @@ class AudioModel(BaseModel):
     # generates speech from provided text
     @command("text-to-speech")
     def text_to_speech(self, action):
-        Logger.log_info("AudioModel", "Dummy implementation for 'text-to-speech' command")
+        input_text                  = action.get("text")
+        input_text_path             = action.get("input-text-path")
+        input_text_reference        = action.get("input-text-reference")
+        speech_speed                = action.get("speech-speed", 1.0)
+        speech_energy               = action.get("speech-energy", 1.0)
+        speech_speaker              = action.get("speech-speaker", None)
+        input_voice_path            = action.get("input-voice-path", None)
+        tts_model_path              = action.get("tts-model-path", None)
+        language                    = action.get("language", None)
+        output_audio_path           = action.get("output-audio-path")
+        output_audio_reference      = action.get("output-audio-reference")
+
+        try:
+            Logger.log_info("AudioModel", "Generating speech from text")
+            
+            text = TextHelper().resolve_text_input(input_text, input_text_path, input_text_reference).get_text()
+            
+            tts_settings = {
+                "model_path"        : tts_model_path,
+                "speed"             : speech_speed,
+                "energy"            : speech_energy,
+                "speaker"           : speech_speaker,
+                "speaker_wav"       : input_voice_path,
+                "language"          : language
+            }
+            audio_helper = AudioHelper().text_to_speech(text, tts_settings, output_audio_path)
+            audio_helper.resolve_audio_output(output_audio_path, output_audio_reference)
+            
+        except Exception as e:
+            Logger.log_error("AudioModel", f"Error in text-to-speech: {e}")

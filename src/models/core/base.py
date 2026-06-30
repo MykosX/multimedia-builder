@@ -5,8 +5,41 @@ from abc                        import ABC, abstractmethod
 from src.models.core.decorators import command
 from src.utils                  import Logger
 
-class BaseModel(ABC):
+class BaseHelper(ABC):
     CACHE           = {}
+    
+    @staticmethod
+    def load_from_cache(data_class, cache_key):
+        name_key = f"{data_class}-{cache_key}"
+
+        try:
+            Logger.log_info("BaseHelper", f"Loading {data_class.upper()} from cache as '{name_key}'")
+
+            cache = BaseHelper.CACHE
+            if name_key in cache:
+                return cache[name_key]
+            else:
+                Logger.log_warning("BaseHelper", f"Cache key '{name_key}' not found.")
+
+        except Exception as e:
+            Logger.log_error("BaseHelper", f"Error while loading {data_class.upper()} from cache as '{name_key}': {e}")
+
+        return BaseHelper()
+
+    @staticmethod
+    def save_to_cache(data_class, cache_key, content):
+        name_key = f"{data_class}-{cache_key}"
+
+        try:
+            Logger.log_info("BaseHelper", f"Saving {data_class.upper()} to cache as '{name_key}'")
+
+            cache = BaseHelper.CACHE
+            cache[name_key] = content
+        except Exception as e:
+            Logger.log_error("BaseHelper", f"Error while saving {data_class.upper()} to cache as '{name_key}': {e}")
+
+
+class BaseModel(ABC):
     COMMANDS        = {}
     
     def __init_subclass__(cls):
@@ -20,36 +53,6 @@ class BaseModel(ABC):
             if hasattr(method, "_command_name"):
                 cls.COMMANDS[method._command_name] = method.__name__
 
-    @staticmethod
-    def load_from_cache(data_class, cache_key):
-        name_key = f"{data_class}-{cache_key}"
-
-        try:
-            Logger.log_info("BaseModel", f"Loading {data_class.upper()} from cache as '{name_key}'")
-
-            cache = BaseModel.CACHE
-            if name_key in cache:
-                return cache[name_key]
-            else:
-                Logger.log_warning("BaseModel", f"Cache key '{name_key}' not found.")
-
-        except Exception as e:
-            Logger.log_error("BaseModel", f"Error while loading {data_class.upper()} from cache as '{name_key}': {e}")
-
-        return None
-
-    @staticmethod
-    def save_to_cache(data_class, cache_key, content):
-        name_key = f"{data_class}-{cache_key}"
-
-        try:
-            Logger.log_info("BaseModel", f"Saving {data_class.upper()} to cache as '{name_key}'")
-
-            cache = BaseModel.CACHE
-            cache[name_key] = content
-        except Exception as e:
-            Logger.log_error("BaseModel", f"Error while saving {data_class.upper()} to cache as '{name_key}': {e}")
-    
     @command("run-custom")
     def run_custom(self, action):
         Logger.log_info("BaseModel", "Dummy implementation for 'run-custom' command")

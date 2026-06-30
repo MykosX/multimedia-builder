@@ -2,7 +2,7 @@
 # src/models/domain/image.py
 
 from src.models.core            import BaseModel
-from src.models.providers       import ImageHelper
+from src.models.helpers         import ImageHelper
 from src.utils                  import Logger
 
 class ImageModel(BaseModel):

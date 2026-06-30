@@ -2,7 +2,7 @@
 # src/models/domain/video.py
 
 from src.models.core            import BaseModel
-from src.models.providers       import VideoHelper
+from src.models.helpers         import VideoHelper
 from src.utils                  import Logger
 
 class VideoModel(BaseModel):

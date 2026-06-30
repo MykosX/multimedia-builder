@@ -1,10 +1,12 @@
 
+# src/models/providers/coqui_tts.py
+
 from src.models.domain          import AudioModel
 from src.helpers.core           import Utils
 
 from TTS.api                    import TTS
 
-class CoquiTTSModel(AudioModel):
+class CoquiTTS:
     def __init__(self):
         super().__init__()
         
