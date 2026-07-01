@@ -1,14 +1,17 @@
 
 # src/models/helpers/image.py
 
+import torch
+
 from src.models.core            import BaseHelper
-from src.utils                  import Logger
+from src.utils                  import Logger, Utils
+
 from PIL                        import Image, ImageColor, ImageDraw, ImageFont
 
 EMPTY_IMAGE = Image.new("RGBA", (1, 1), (0, 0, 0, 0))
 
 class ImageHelper(BaseHelper):
-    def __init__(self, image : Image):
+    def __init__(self, image : Image = None):
         self.image = image or EMPTY_IMAGE.copy()
     
     def get_image(self) -> Image:
@@ -17,11 +20,11 @@ class ImageHelper(BaseHelper):
     # loads omage from specified file path
     def load(self, source_path) -> ImageHelper:
         try:
-            Logger.logger.info("ImageHelper", f"Loading image from: {source_path}")
+            Logger.log_info("ImageHelper", f"Loading image from: {source_path}")
             
             self.image = Image.open(source_path)
         except Exception as e:
-            Logger.logger.error("ImageHelper", f"Error while loading image: {e}")
+            Logger.log_error("ImageHelper", f"Error while loading image: {e}")
         
         return ImageHelper(self.image)
     
@@ -32,7 +35,7 @@ class ImageHelper(BaseHelper):
             
             Utils.ensure_dir(destination_path)
             
-            image.save(destination_path, format=format.upper())
+            self.image.save(destination_path, format=format.upper())
         except Exception as e:
             Logger.log_error("ImageHelper", f"Error while saving image to {destination_path}: {e}")
         
@@ -184,7 +187,7 @@ class ImageHelper(BaseHelper):
             model_settings
         )
     
-    def convert(self, mode:str="RGBA") -> ImageHelper:
+    def convert(self, mode:str="RGB") -> ImageHelper:
         return ImageHelper(self.image.convert(mode))
     
     def text_to_image(self, model_settings) -> ImageHelper:
@@ -208,7 +211,7 @@ class ImageHelper(BaseHelper):
         image = pipeline(
             prompt              = ImageHelper.resolve_positive_prompt(model_settings),
             negative_prompt     = ImageHelper.resolve_negative_prompt(model_settings),
-            image               = self.image
+            image               = self.image,
             guidance_scale      = ImageHelper.resolve_guidance_scale(model_settings),
             num_inference_steps = ImageHelper.resolve_inference_steps(model_settings),
             generator           = ImageHelper.resolve_generator(model_settings),
@@ -219,7 +222,7 @@ class ImageHelper(BaseHelper):
         return ImageHelper(image)
 
     def color_to_image(self, color, alpha, width, height) -> ImageHelper:
-        rgba_color = ImageHelper.rgba_color(color, alpha)
+        rgba_color = ImageHelper.to_rgba_color(color, alpha)
         image = Image.new(
             "RGBA",
             (width, height),

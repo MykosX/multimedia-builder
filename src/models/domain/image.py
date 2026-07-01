@@ -2,6 +2,7 @@
 # src/models/domain/image.py
 
 from src.models.core            import BaseModel
+from src.models.core.decorators import command
 from src.models.helpers         import ImageHelper, TextHelper
 from src.utils                  import Logger
 
@@ -30,43 +31,24 @@ class ImageModel(BaseModel):
 
     def get_model_settings(self, action):        
         positive_prompt = TextHelper().resolve_input(
-            action.get("prompt"),
-            action.get("prompt-path"),
+            "prompt",
+            "prompt-path",
             None
         ).get_text()
         
         negative_prompt = TextHelper().resolve_input(
-            action.get("negative-prompt"),
-            action.get("negative-prompt-path"),
+            "negative-prompt",
+            "negative-prompt-path",
             None
         ).get_text()
-            
-        model_settings = {
-            # model
-            "model-path"        : action.get("model-path"),
+        
+        action["positive-prompt"] = positive_prompt
+        action["negative-prompt"] = negative_prompt
+        
+        return action
 
-            # prompts
-            "positive-prompt"   : positive_prompt,
-            "negative-prompt"   : negative_prompt,
-
-            # image
-            "width"             : action.get("image-width"),
-            "height"            : action.get("image-height"),
-
-            # diffusion
-            "guidance-scale"    : action.get("guidance-scale"),
-            "strength"          : action.get("strength"),
-            "inference-steps"   : action.get("inference-steps"),
-
-            # randomness
-            "seed"              : action.get("seed"),
-
-            # torch
-            "torch-device"      : action.get("torch-device"),
-            "torch-type"        : action.get("torch-type"),
-        }
-        return model_settings
-
+    # generate the image from current text and other settings
+    @command("text-to-image")
     def text_to_image(self, action):
         output_image_path           = action.get("output-image-path")
         output_image_reference      = action.get("output-image-reference")
@@ -80,6 +62,8 @@ class ImageModel(BaseModel):
         except Exception as e:
             Logger.log_error("ImageModel", f"Error in text_to_image: {e}")
 
+    # generate the image from current text and other settings
+    @command("image-to-image")
     def image_to_image(self, action):
         seed_image_path             = action.get("seed-image-path")
 
@@ -89,11 +73,13 @@ class ImageModel(BaseModel):
         try:
             Logger.log_info("ImageModel", "Generating image from text and a base image")
             
-            image_helper = ImageHelper(seed_image_path).image_to_image(self.get_model_settings(action))
+            image_helper = ImageHelper().load(seed_image_path).image_to_image(self.get_model_settings(action))
             image_helper.resolve_output(output_image_path, output_image_reference)
         except Exception as e:
             Logger.log_error("ImageModel", f"Error in image-to-image: {e}")
 
+    # generate the image from color, alpha, width and height
+    @command("color-to-image")
     def color_to_image(self, action):
         color                       = ImageHelper.resolve_color(action.get("color"))
         alpha                       = ImageHelper.resolve_alpha(action.get("alpha"))
@@ -107,10 +93,12 @@ class ImageModel(BaseModel):
             Logger.log_info("ImageModel", "Creating image from color")
             
             image_helper = ImageHelper().color_to_image(color, alpha, width, height)
-            image_helper.resolve_output(output_image_path, output_image_reference)
+            image_helper.convert("RGBA").resolve_output(output_image_path, output_image_reference)
         except Exception as e:
             Logger.log_error("ImageModel", f"Error in color-to-image: {e}")
 
+    # resize the image with new width and height
+    @command("resize-image")
     def resize_image(self, action):
         try:
             Logger.log_info("ImageModel", "Resizing image")
@@ -120,7 +108,9 @@ class ImageModel(BaseModel):
         except Exception as e:
             Logger.log_error("ImageModel", f"Error in resize-image: {e}")
 
-    def paste_image(self, action):
+    # insert an image in the current one at position (x, y)
+    @command("insert-image")
+    def insert_image(self, action):
         try:
             Logger.log_info("ImageModel", "Inserting an image into another")
             
@@ -129,6 +119,8 @@ class ImageModel(BaseModel):
         except Exception as e:
             Logger.log_error("ImageModel", f"Error in paste-image: {e}")
 
+    # draws text at (x, y)
+    @command("draw-text")
     def draw_text(self, action):
         try:
             Logger.log_info("ImageModel", "Drawing text over image")
@@ -138,6 +130,8 @@ class ImageModel(BaseModel):
         except Exception as e:
             Logger.log_error("ImageModel", f"Error in draw-text: {e}")
 
+    # applies speech bubbles at (x, y)
+    @command("with-speech-bubbles")
     def with_speech_bubbles(self, action):
         try:
             Logger.log_info("ImageModel", "Inserting speech bubbles")

@@ -66,7 +66,7 @@
           "output-image-path"       : "output/image/colored-image-(768x512).jpg"
         },
         {
-          "command"                 : "paste-image",
+          "command"                 : "insert-image",
           "enabled"                 : true,
           "image-name"              : "couple-having-fun",
           "image-to-insert"         : "colored-image",
