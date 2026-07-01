@@ -1,5 +1,5 @@
 
-# src/models/providers/image.py
+# src/models/helpers/image.py
 
 from src.utils                  import Logger, Utils
 

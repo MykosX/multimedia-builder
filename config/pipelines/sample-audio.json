@@ -8,7 +8,7 @@
             {
               "command"                 : "text-to-speech",
               "enabled"                 : true,
-              "model-path"              : "tts_models/en/ljspeech/vits",
+              "coqui-model-path"        : "tts_models/en/ljspeech/vits",
               "input-text-path"         : "assets/text/joke-start.txt",
               "output-audio-reference"  : "joke-start",
               "output-audio-path"       : "output/audio/joke-start.wav"
@@ -16,7 +16,7 @@
             {
               "command"                 : "text-to-speech",
               "enabled"                 : true,
-              "model-path"              : "tts_models/en/ljspeech/vits",
+              "coqui-model-path"        : "tts_models/en/ljspeech/vits",
               "input-text-path"         : "assets/text/joke-stop.txt",
               "output-audio-reference"  : "joke-stop",
               "output-audio-path"       : "output/audio/joke-stop.wav"
@@ -58,6 +58,7 @@
         {
           "command"                 : "audio-to-text",
           "enabled"                 : true,
+          "whisper-model"           : "base",
           "input-audio-reference"   : "joke-full",
           "whisper-model"           : "base",
           "output-text-path"        : "output/text/joke-transcript.srt"

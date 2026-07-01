@@ -1,8 +1,10 @@
 
-# src/models/providers/text.py
+# src/models/helpers/text.py
 
 from src.models.core            import BaseHelper
 from src.utils                  import Logger, Utils
+
+import whisper
 
 class TextHelper(BaseHelper):
     def __init__(self, text=None):
@@ -20,9 +22,8 @@ class TextHelper(BaseHelper):
                 self.text = f.read()
         except Exception as e:
             Logger.log_error("TextHelper", f"Error while loading text from {source_path}: {e}")
-            self.text = ""
         
-        return self
+        return TextHelper(self.text)
 
     # saves text to a specified file
     def save(self, destination_path: str) -> TextHelper:
@@ -62,5 +63,30 @@ class TextHelper(BaseHelper):
 
         if output_text_reference:
             TextHelper.save_to_cache("text", output_text_reference, self)
+        
+        return self
+
+    def audio_to_text(self, input_audio_path, model_settings) -> TextHelper:
+        model = whisper.load_model(model_settings["whisper-model"])
+        result = model.transcribe(input_audio_path, word_timestamps=True)
+
+        words_info = []
+        for segment in result['segments']:
+            for word_info in segment['words']:
+                words_info.append({
+                    'word': word_info['word'],
+                    'start_time': word_info['start'],
+                    'end_time': word_info['end']
+                })
+
+        # Format each word as a separate subtitle line
+        transcript_text = ""
+        for i, word_info in enumerate(words_info, 1):
+            start_time  = Utils.format_time(word_info['start_time'])
+            end_time    = Utils.format_time(word_info['end_time'])
+            word = word_info['word'].strip()
+            transcript_text += f"{i}\n{start_time} --> {end_time}\n{word}\n\n"
+        
+        self.text = transcript_text
         
         return self

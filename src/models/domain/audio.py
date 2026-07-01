@@ -6,16 +6,56 @@ from pathlib import Path
 from src.models.core            import BaseModel
 from src.models.core.decorators import command
 from src.models.helpers         import AudioHelper, TextHelper
-from src.utils                  import Logger
+from src.utils                  import Logger, Utils
 
 class AudioModel(BaseModel):
     def __init__(self):
         super().__init__()
     
+    def get_coqui_settings(self, action):
+        model_settings = {
+            "coqui-model-path"  : action.get("coqui-model-path", None),
+            "speed"             : action.get("speech-speed", 1.0),
+            "energy"            : action.get("speech-energy", 1.0),
+            "speaker"           : action.get("speech-speaker", None),
+            "speaker_wav"       : action.get("input-voice-path", None),
+            "language"          : action.get("language", None)
+        }
+        return model_settings
+
+    def get_whisper_settings(self, action):
+        model_settings = {
+            "whisper-model":    action.get("whisper-model")
+        }
+        return model_settings
+
     # generates a transcript from provided audio
     @command("audio-to-text")
     def audio_to_text(self, action):
-        Logger.log_info("AudioModel", "Dummy implementation for 'audio-to-text' command")
+        input_audio_path            = action.get("input-audio-path")
+        input_audio_reference       = action.get("input-audio-reference")
+        
+        output_text_path            = action.get("output-text-path")
+        output_text_reference       = action.get("output-text-reference")
+
+        try:
+            Logger.log_info("AudioModel", "Generating transcript from audio")
+            
+            if input_audio_path is None:
+                temp_file_path = output_text_path + ".wav"
+                AudioHelper().resolve_input(input_audio_path, input_audio_reference).save(temp_file_path)
+            else:
+                temp_file_path = input_audio_path
+
+            text_helper = TextHelper().audio_to_text(temp_file_path, self.get_whisper_settings(action))
+            
+            if input_audio_path is None:
+                Utils.delete_file(temp_file_path)
+                
+            text_helper.resolve_output(output_text_path, output_text_reference)
+
+        except Exception as e:
+            Logger.log_error("AudioModel", f"Error in audio-to-text: {e}")
 
     # combines provided audios into one final audio
     @command("merge-audios")
@@ -103,30 +143,15 @@ class AudioModel(BaseModel):
     def text_to_speech(self, action):
         input_text                  = action.get("text")
         input_text_path             = action.get("input-text-path")
-        input_text_reference        = action.get("input-text-reference")
-        speech_speed                = action.get("speech-speed", 1.0)
-        speech_energy               = action.get("speech-energy", 1.0)
-        speech_speaker              = action.get("speech-speaker", None)
-        input_voice_path            = action.get("input-voice-path", None)
-        tts_model_path              = action.get("tts-model-path", None)
-        language                    = action.get("language", None)
+        
         output_audio_path           = action.get("output-audio-path")
         output_audio_reference      = action.get("output-audio-reference")
 
         try:
             Logger.log_info("AudioModel", "Generating speech from text")
             
-            text = TextHelper().resolve_input(input_text, input_text_path, input_text_reference).get_text()
-            
-            tts_settings = {
-                "model_path"        : tts_model_path,
-                "speed"             : speech_speed,
-                "energy"            : speech_energy,
-                "speaker"           : speech_speaker,
-                "speaker_wav"       : input_voice_path,
-                "language"          : language
-            }
-            audio_helper = AudioHelper().text_to_speech(text, tts_settings, output_audio_path)
+            text = TextHelper().resolve_input(input_text, input_text_path, None).get_text()
+            audio_helper = AudioHelper().text_to_speech(text, self.get_coqui_settings(action), output_audio_path)
             audio_helper.resolve_output(output_audio_path, output_audio_reference)
             
         except Exception as e:

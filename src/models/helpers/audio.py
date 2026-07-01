@@ -1,5 +1,5 @@
 
-# src/models/providers/audio.py
+# src/models/helpers/audio.py
 
 from pydub                      import AudioSegment
 
@@ -8,9 +8,11 @@ from src.utils                  import Logger, Utils
 
 from TTS.api                    import TTS
 
+EMPTY_SEGMENT = AudioSegment.silent(duration=0)
+
 class AudioHelper(BaseHelper):
     def __init__(self, audio_segment=None):
-        self.audio_segment = audio_segment or AudioSegment.silent(0)
+        self.audio_segment = audio_segment or EMPTY_SEGMENT
 
     def get_audio(self) -> AudioSegment:
         return self.audio_segment
@@ -24,9 +26,8 @@ class AudioHelper(BaseHelper):
 
         except Exception as e:
             Logger.log_error("AudioHelper", f"Error while loading audio: {e}")
-            self.audio_segment = AudioSegment.silent(0)
 
-        return self
+        return AudioHelper(self.audio_segment)
 
     # saves provided audio file to specified destination
     def save(self, destination_path, format="wav") -> AudioHelper:
@@ -107,13 +108,13 @@ class AudioHelper(BaseHelper):
         
         return chunks
 
-    def text_to_speech(self, text, tts_settings, output_audio_path) -> AudioHelper:
-        model_path = tts_settings["model_path"] or "tts_models/en/ljspeech/vits"
+    def text_to_speech(self, text, model_settings, output_audio_path) -> AudioHelper:
+        model_path = model_settings["coqui-model-path"] or "tts_models/en/ljspeech/vits"
         
         Logger.log_info("AudioHelper", f"Initialized Coqui TTS model: {model_path}")
         coqui_tts = TTS(model_path)
         
-        speaker = tts_settings["speaker"]
+        speaker = model_settings["speaker"]
         # If no speaker specified but model has speakers, use default and warn
         if speaker is None and hasattr(coqui_tts, "speakers") and coqui_tts.speakers:
             default_speaker = coqui_tts.speakers[0]  # assuming the first is the default
@@ -122,11 +123,11 @@ class AudioHelper(BaseHelper):
         
         kwargs = {
             "text"              : text,
-            "speed"             : tts_settings["speed"],
-            "energy"            : tts_settings["energy"],
+            "speed"             : model_settings["speed"],
+            "energy"            : model_settings["energy"],
             "speaker"           : speaker,
-            "speaker_wav"       : tts_settings["speaker_wav"],
-            "language"          : tts_settings["language"],
+            "speaker_wav"       : model_settings["speaker_wav"],
+            "language"          : model_settings["language"],
             "file_path"         : output_audio_path
         }
         

@@ -1,5 +1,5 @@
 
-# src/models/providers/video.py
+# src/models/helpers/video.py
 
 from src.utils                  import Logger, Utils
 
