@@ -52,7 +52,7 @@ class ImageModel(BaseModel):
 
         (
             DiffusersAdapter()
-            .update(context.diffusers)
+            .update(context.parameters)
             .image_to_image()
         )
 
