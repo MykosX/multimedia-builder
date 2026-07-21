@@ -36,6 +36,7 @@
             "adapter"                   : "diffusers",
             "parameters"                :
             {
+                "model-path"            : "MykosX/delia-anime-sd",
                 "prompt"                : "landscape image, a boy and girl having fun on the beach, spring season",
                 "negative-prompt-path"  : "assets/text/negative-prompt.txt",
                 "input-image-path"      : "assets/image/couple-having-fun.jpg",
@@ -54,6 +55,7 @@
             "adapter"                   : "diffusers",
             "parameters"                :
             {
+                "model-path"            : "MykosX/gina-photo-sd",
                 "prompt"                : "landscape image, a boy and girl having fun on the beach, summer season",
                 "negative-prompt-path"  : "assets/text/negative-prompt.txt",
                 "input-image-path"      : "assets/image/couple-having-fun.jpg",
@@ -72,6 +74,7 @@
             "adapter"                   : "diffusers",
             "parameters"                :
             {
+                "model-path"            : "MykosX/artemis-anime-sd",
                 "prompt"                : "landscape image, a boy and girl having fun on the beach, autumn season",
                 "negative-prompt-path"  : "assets/text/negative-prompt.txt",
                 "input-image-path"      : "assets/image/couple-having-fun.jpg",
@@ -90,6 +93,7 @@
             "adapter"                   : "diffusers",
             "parameters"                :
             {
+                "model-path"            : "MykosX/karla-photo-sd",
                 "prompt"                : "landscape image, a boy and girl having fun on the beach, winter season",
                 "negative-prompt-path"  : "assets/text/negative-prompt.txt",
                 "input-image-path"      : "assets/image/couple-having-fun.jpg",
