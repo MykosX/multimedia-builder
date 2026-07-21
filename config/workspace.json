@@ -4,11 +4,11 @@
     [
         {
             "path": "config/pipelines/01-question-answer-joke.json",
-            "enabled": true
+            "enabled": false
         },
         {
-            "path": "config/pipelines/sample-audio.json",
-            "enabled": false
+            "path": "config/pipelines/02-image-slide-show.json",
+            "enabled": true
         },
         {
             "path": "config/pipelines/sample-image.json",
