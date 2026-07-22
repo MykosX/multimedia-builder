@@ -42,10 +42,10 @@
                 "base-image-path"       : "assets/image/couple-having-fun.jpg",
                 "width"                 :  768,
                 "height"                :  512,
-                "guidance-scale"        : 12.0,
-                "strength"              :  0.5,
-                "inference-steps"       :   30,
-                "seed"                  :  123,
+                "guidance-scale"        :  9.0,
+                "strength"              :  0.4,
+                "inference-steps"       :   60,
+                "seed"                  :  777,
                 "output-image-path"     : "output/image/couple-having-fun-spring.jpg"
             }
         },
@@ -61,10 +61,10 @@
                 "base-image-path"       : "assets/image/couple-having-fun.jpg",
                 "width"                 :  768,
                 "height"                :  512,
-                "guidance-scale"        : 12.0,
+                "guidance-scale"        : 10.0,
                 "strength"              :  0.5,
-                "inference-steps"       :   30,
-                "seed"                  :  123,
+                "inference-steps"       :   50,
+                "seed"                  : 1092,
                 "output-image-path"     : "output/image/couple-having-fun-summer.jpg"
             }
         },
@@ -99,10 +99,10 @@
                 "base-image-path"       : "assets/image/couple-having-fun.jpg",
                 "width"                 :  768,
                 "height"                :  512,
-                "guidance-scale"        : 12.0,
-                "strength"              :  0.5,
-                "inference-steps"       :   30,
-                "seed"                  :  123,
+                "guidance-scale"        : 11.0,
+                "strength"              :  0.6,
+                "inference-steps"       :   40,
+                "seed"                  :  301,
                 "output-image-path"     : "output/image/couple-having-fun-winter.jpg"
             }
         }]
